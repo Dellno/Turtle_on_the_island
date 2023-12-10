@@ -1,6 +1,7 @@
 import pygame
 from map import Map
 
+
 def main():
     running = True
 
@@ -27,4 +28,3 @@ if __name__ == '__main__':
         screen.fill((0, 0, 0))
         board.render(20, 20, 0, 0)
         pygame.display.flip()
-
