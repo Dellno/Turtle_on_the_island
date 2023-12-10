@@ -1,16 +1,19 @@
 import pygame
-
-
+from block import Block
+from water_block import Water
 class Map:
     def __init__(self, width, height, screen):
         self.width = width
         self.height = height
-        self.board = [[None] * width for _ in range(height)]
+        self.board = [[Water()] * width for _ in range(height)]
+
         self.cell_size = 128
         self.screen = screen
 
-    # cell_x и cell_y это координаты на которых стоит черепашка, они будут центральными. (от 0 до размера карты - 1)
-    # pix_x и pix_y это координаты смещения, необходимы для синхронизации движения карты с движением черепашки. (-128, 128)
+    # cell_x и cell_y это координаты на которых стоит черепашка, они будут центральными.
+    # диапазон значений: (от 0 до размера карты по нужной оси за вычитом 6 клеток)
+    # pix_x и pix_y это координаты смещения, необходимы для синхронизации движения карты с движением черепашки.
+    # диапазон значений: (-128, 128) по обеим осям
     def render(self, cell_x, cell_y, pix_x=0, pix_y=0):
         self.left = cell_x - 5
         self.top = cell_y - 2
@@ -30,11 +33,8 @@ class Map:
                                                                         dry,
                                                                         step,
                                                                         step), 1)
-                    elif self.board[y][x] == 1:
-                        pygame.draw.rect(self.screen, (255, 255, 255), (drx,
-                                                                        dry,
-                                                                        step,
-                                                                        step), 0)
+                    else:
+                        self.board[y][x].render(drx, dry, self.screen)
                 if x > cell_x + 15 + 1:
                     break
                 drx += step
