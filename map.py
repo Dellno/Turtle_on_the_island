@@ -1,6 +1,8 @@
 import pygame
 from block import Block
 from water_block import Water
+from dirt_block import Grass
+from island import Island
 
 
 class Map:
@@ -8,7 +10,7 @@ class Map:
         self.width = width
         self.height = height
         self.board = [[Water()] * width for _ in range(height)]
-
+        Island(120, 120, 10, 10, self.board)
         self.cell_size = 128
         self.screen = screen
 
@@ -30,7 +32,8 @@ class Map:
                 break
             for x in range(len(self.board[0])):
                 if x in range(cell_x - 6, cell_x + 6 + 1):
-                    self.board[y][x].render(drx, dry, self.screen)
+                    if not (self.board[y][x] is None):
+                        self.board[y][x].render(drx, dry, self.screen)
                 if x > cell_x + 15 + 1:
                     break
                 drx += step
