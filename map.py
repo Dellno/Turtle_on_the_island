@@ -16,7 +16,7 @@ class Map:
 
     # cell_x и cell_y это координаты на которых стоит черепашка, они будут центральными. (от 0 до размера карты - 1)
     # pix_x и pix_y это координаты смещения, необходимы для синхронизации движения карты с движением черепашки. (-128, 128)
-    def render(self, cell_x, cell_y, pix_x=0, pix_y=0):
+    def render(self, cell_x: int, cell_y: int, pix_x=0, pix_y=0):
         self.left = cell_x - 5
         self.top = cell_y - 2
 
