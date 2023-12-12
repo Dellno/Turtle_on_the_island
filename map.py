@@ -1,6 +1,8 @@
 import pygame
 from block import Block
 from water_block import Water
+
+
 class Map:
     def __init__(self, width, height, screen):
         self.width = width
@@ -28,13 +30,7 @@ class Map:
                 break
             for x in range(len(self.board[0])):
                 if x in range(cell_x - 6, cell_x + 6 + 1):
-                    if self.board[y][x] is None:
-                        pygame.draw.rect(self.screen, (255, 255, 255), (drx,
-                                                                        dry,
-                                                                        step,
-                                                                        step), 1)
-                    else:
-                        self.board[y][x].render(drx, dry, self.screen)
+                    self.board[y][x].render(drx, dry, self.screen)
                 if x > cell_x + 15 + 1:
                     break
                 drx += step

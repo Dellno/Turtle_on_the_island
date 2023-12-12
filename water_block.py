@@ -11,4 +11,4 @@ class Water(Block):
     def block_event(self):
         if randint(0, 9) % 4 == 0:
             return "damage", 1
-        return None
+        return 'endurance', 1
