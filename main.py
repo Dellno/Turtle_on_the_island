@@ -1,12 +1,12 @@
 import pygame
 from map import Map
-
+from entity_map import EntityMap
 
 def main():
     size = width, height = 1408, 640
     screen = pygame.display.set_mode(size)
     board = Map(256, 256, screen)
-
+    entity_board = EntityMap(256, 256, screen)
     fps = 60
     clock = pygame.time.Clock()
 
@@ -19,6 +19,7 @@ def main():
                 board.get_click(event.pos)
         screen.fill((0, 0, 0))
         board.render(128, 128, 0, 0)
+        entity_board.render(128, 128, 0, 0)
         pygame.display.flip()
         clock.tick(fps)
 

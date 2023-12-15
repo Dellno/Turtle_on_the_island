@@ -14,4 +14,4 @@ class Entity:
         return False
 
     def render(self, x, y, screen):
-        screen.blit(self.texture, (x, y))
+        screen.blit(self.img, (x, y))
