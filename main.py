@@ -2,21 +2,15 @@ import pygame
 import sys
 
 
-pygame.init()
-size = width, height = 1408, 640
-screen = pygame.display.set_mode(size)
-clock = pygame.time.Clock()
-running = True
+def start_screen(screen, clock):
+    fon = pygame.image.load('assets\\texture\\fon.png')
+    plot_img =  pygame.transform.rotate(pygame.image.load('assets\\texture\\entity\\plot.png'), 270)
+    turtle_anim = [pygame.transform.rotate(pygame.image.load('assets\\texture\\Turtle\\Turtle_' + str(i) + '.png'),
+                                         270) for i in range(1, 9)]
+    plot_anim = [pygame.transform.rotate(pygame.image.load('assets\\texture\\entity\\plot_' + str(i) + '.png'),
+                                       270) for i in range(1, 3)]
+    turt = pygame.transform.rotate(pygame.image.load('assets\\texture\\Turtle\\Turtle_1.png'), 270)
 
-fon = pygame.image.load('assets\\texture\\fon.png')
-turtleimg = [pygame.transform.rotate(pygame.image.load('assets\\texture\\Turtle\\Turtle_' + str(i) + '.png'), 270) for i in
-          range(1, 9)]
-plotimg = [pygame.transform.rotate(pygame.image.load('assets\\texture\\entity\\plot_' + str(i) + '.png'), 270) for i in
-           range(1, 3)]
-turt = pygame.transform.rotate(pygame.image.load('assets\\texture\\Turtle\\Turtle_1.png'), 270)
-
-
-def start_screen():
     v = -2
     x, y = 0, -300
     c = 0
@@ -36,18 +30,36 @@ def start_screen():
         c += 1
         screen.blit(fon, (x, y))
         screen.blit(fon, (x + 5000, y))
-        if x < -750 and x > -2670:
-            screen.blit(plotimg[int((c % 7) // 4)], (280, 300))
+
+        if x < -800 and x > -2670:
+            screen.blit(plot_anim[int((c % 7) // 4)], (280, 300))
             screen.blit(turt, (300, 300))
         else:
-            screen.blit(turtleimg[int(c // 3.8)], (300, 300))
+            screen.blit(plot_img, (x + 1100, 300))
+            screen.blit(turtle_anim[int(c // 3.8)], (300, 300))
         pygame.display.flip()
 
 
-start_screen()
-while running:
-    clock.tick(30)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-    pygame.display.flip()
+def main():
+    size = width, height = 1408, 640
+    screen = pygame.display.set_mode(size)
+
+    fps = 30
+    clock = pygame.time.Clock()
+    start_screen(screen, clock)
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pass
+        screen.fill((0, 0, 0))
+        pygame.display.flip()
+        clock.tick(fps)
+
+
+if __name__ == '__main__':
+    pygame.init()
+    pygame.display.set_caption('Turtle_on_the_island')
+    main()
