@@ -10,7 +10,7 @@ def main():
     entity_board = EntityMap(256, 256, screen)
     fps = 60
     clock = pygame.time.Clock()
-
+    start_screen(screen, clock)
     running = True
     while running:
         for event in pygame.event.get():
@@ -26,13 +26,13 @@ def main():
 
 
 def start_screen(screen, clock):
-    fon = pygame.image.load('assets\\texture\\fon.png')
-    plot_img = pygame.transform.rotate(pygame.image.load('assets\\texture\\entity\\plot.png'), 270)
-    turtle_anim = [pygame.transform.rotate(pygame.image.load('assets\\texture\\Turtle\\Turtle_' + str(i) + '.png'),
+    fon = pygame.image.load('assets/texture/fon.png')
+    plot_img = pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot.png'), 270)
+    turtle_anim = [pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_' + str(i) + '.png'),
                                            270) for i in range(1, 9)]
-    plot_anim = [pygame.transform.rotate(pygame.image.load('assets\\texture\\entity\\plot_' + str(i) + '.png'),
+    plot_anim = [pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot_' + str(i) + '.png'),
                                          270) for i in range(1, 3)]
-    turt = pygame.transform.rotate(pygame.image.load('assets\\texture\\Turtle\\Turtle_1.png'), 270)
+    turt = pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_1.png'), 270)
 
     v = -2
     x, y = 0, -300
