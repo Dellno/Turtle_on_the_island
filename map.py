@@ -3,6 +3,7 @@ from block import Block
 from water_block import Water
 from dirt_block import Grass
 from island import Island
+from turtle import Turtle
 
 
 class Map:
@@ -10,7 +11,7 @@ class Map:
         self.width = width
         self.height = height
         self.board = [[Water()] * width for _ in range(height)]
-        Island(120, 120, 10, 10, self.board)
+        Island(128, 128, 10, 10, self.board)
         self.cell_size = 128
         self.screen = screen
 
@@ -30,8 +31,10 @@ class Map:
                 break
             for x in range(len(self.board[0])):
                 if x in range(cell_x - 6, cell_x + 6 + 1):
-                    if not (self.board[y][x] is None):
+                    if not (self.board[y][x] is None) and not isinstance(self.board[y][x], Turtle):
                         self.board[y][x].render(drx, dry, self.screen)
+                    elif isinstance(self.board[y][x], Turtle):
+                        self.board[y][x].render(drx - pix_x, dry - pix_y, self.screen)
                 if x > cell_x + 15 + 1:
                     break
                 drx += step

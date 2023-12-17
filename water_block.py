@@ -9,6 +9,6 @@ class Water(Block):
         super().__init__("more3.png")
 
     def block_event(self):
-        if randint(0, 9) % 4 == 0:
+        if randint(0, 10) == 0:
             return "damage", -1
         return 'endurance', -1

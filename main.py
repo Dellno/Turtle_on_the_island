@@ -1,6 +1,16 @@
 import pygame
 from map import Map
 from entity_map import EntityMap
+import sys
+from turtle import Turtle
+
+
+def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y):
+    screen.fill((0, 0, 0))
+    board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
+    entity_board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
+    pygame.display.flip()
+    clock.tick(fps)
 
 
 def main():
@@ -8,21 +18,46 @@ def main():
     screen = pygame.display.set_mode(size)
     board = Map(256, 256, screen)
     entity_board = EntityMap(256, 256, screen)
-    fps = 60
+    fps = 30
     clock = pygame.time.Clock()
     start_screen(screen, clock)
+    turt = Turtle(128, 128, board, entity_board)
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                board.get_click(event.pos)
-        screen.fill((0, 0, 0))
-        board.render(128, 128, 0, 0)
-        entity_board.render(128, 128, 0, 0)
-        pygame.display.flip()
-        clock.tick(fps)
+                x, y = board.get_click(event.pos)
+                if turt.is_correct_move(x, y):
+                    dx = 0
+                    dy = 0
+                    if x > turt.cords[0]:
+                        turt.rotate = 1
+                        dx = 1
+                        dy = 0
+                    if x < turt.cords[0]:
+                        turt.rotate = 3
+                        dx = -1
+                        dy = 0
+                    if y > turt.cords[1]:
+                        turt.rotate = 2
+                        dy = 1
+                        dx = 0
+                    if y < turt.cords[1]:
+                        turt.rotate = 0
+                        dy = -1
+                        dx = 0
+                    for i in range(len(turt.anim[turt.rotate])):
+                        turt.anim_step = i
+                        render_game(screen, board, entity_board, turt, clock, fps,
+                                    -128 // len(turt.anim[turt.rotate]) * i * dx,
+                                    -128 // len(turt.anim[turt.rotate]) * i * dy)
+                    turt.anim_step = 0
+                    turt.move(x, y)
+                    turt.cords = (x, y)
+
+        render_game(screen, board, entity_board, turt, clock, fps, 0, 0)
 
 
 def start_screen(screen, clock):
@@ -54,7 +89,7 @@ def start_screen(screen, clock):
         screen.blit(fon, (x, y))
         screen.blit(fon, (x + 5000, y))
 
-        if x < -800 and x > -2670:
+        if x in range(-2670, -800):
             screen.blit(plot_anim[int((c % 7) // 4)], (280, 300))
             screen.blit(turt, (300, 300))
         else:
