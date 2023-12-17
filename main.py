@@ -1,6 +1,7 @@
 import pygame
 from map import Map
 from entity_map import EntityMap
+import sys
 
 
 def main():
