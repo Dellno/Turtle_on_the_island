@@ -11,6 +11,8 @@ def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y):
     entity_board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
     pygame.display.flip()
     clock.tick(fps)
+
+
 def main():
     size = width, height = 1408, 640
     screen = pygame.display.set_mode(size)
