@@ -5,16 +5,12 @@ import sys
 from turtle import Turtle
 
 
-
-
-
-
 def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, pos):
     screen.fill((0, 0, 0))
     board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
     entity_board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
-    if pos[0] >= 0 and pos[1] >= 0 and pos[0] <= 1408 and pos[1] <= 640:
-        screen.blit(pygame.image.load('assets/texture/arrow2.png'), pos)
+    if pygame.mouse.get_focused():
+        screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
     pygame.display.flip()
     clock.tick(fps)
 
@@ -24,7 +20,7 @@ def main():
     screen = pygame.display.set_mode(size)
     board = Map(256, 256, screen)
     entity_board = EntityMap(256, 256, screen)
-    fps = 30
+    fps = 60
     clock = pygame.time.Clock()
     start_screen(screen, clock)
     turt = Turtle(128, 128, board, entity_board)
@@ -73,11 +69,11 @@ def main():
 def start_screen(screen, clock):
     fon = pygame.image.load('assets/texture/fon.png')
     plot_img = pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot.png'), 270)
-    turtle_anim = [pygame.transform.rotate(pygame.image.load('assets/texture/Turtle/turtle_' + str(i) + '.png'),
+    turtle_anim = [pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_' + str(i) + '.png'),
                                            270) for i in range(1, 9)]
     plot_anim = [pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot_' + str(i) + '.png'),
                                          270) for i in range(1, 3)]
-    turt = pygame.transform.rotate(pygame.image.load('assets/texture/Turtle/turtle_1.png'), 270)
+    turt = pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_1.png'), 270)
 
     v = -2
     x, y = 0, -300
@@ -109,8 +105,8 @@ def start_screen(screen, clock):
         else:
             screen.blit(plot_img, (x + 1100, 300))
             screen.blit(turtle_anim[int(c // 3.8)], (300, 300))
-        if pos[0] >= 0 and pos[1] >= 0 and pos[0] <= 1408 and pos[1] <= 640:
-            screen.blit(pygame.image.load('assets/texture/arrow2.png'), pos)
+        if pygame.mouse.get_focused():
+            screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
         pygame.display.flip()
 
 
