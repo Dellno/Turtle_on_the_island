@@ -5,10 +5,12 @@ import sys
 from turtle import Turtle
 
 
-def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y):
+def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, pos):
     screen.fill((0, 0, 0))
     board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
     entity_board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
+    if pygame.mouse.get_focused():
+        screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
     pygame.display.flip()
     clock.tick(fps)
 
@@ -18,15 +20,19 @@ def main():
     screen = pygame.display.set_mode(size)
     board = Map(256, 256, screen)
     entity_board = EntityMap(256, 256, screen)
-    fps = 30
+    fps = 60
     clock = pygame.time.Clock()
     start_screen(screen, clock)
     turt = Turtle(128, 128, board, entity_board)
     running = True
+    mouse_pos = (0, 0)
+    pygame.mouse.set_visible(False)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.MOUSEMOTION:
+                mouse_pos = event.pos
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = board.get_click(event.pos)
                 if turt.is_correct_move(x, y):
@@ -52,12 +58,12 @@ def main():
                         turt.anim_step = i
                         render_game(screen, board, entity_board, turt, clock, fps,
                                     -128 // len(turt.anim[turt.rotate]) * i * dx,
-                                    -128 // len(turt.anim[turt.rotate]) * i * dy)
+                                    -128 // len(turt.anim[turt.rotate]) * i * dy, mouse_pos)
                     turt.anim_step = 0
                     turt.move(x, y)
                     turt.cords = (x, y)
 
-        render_game(screen, board, entity_board, turt, clock, fps, 0, 0)
+        render_game(screen, board, entity_board, turt, clock, fps, 0, 0, mouse_pos)
 
 
 def start_screen(screen, clock):
@@ -72,6 +78,8 @@ def start_screen(screen, clock):
     v = -2
     x, y = 0, -300
     c = 0
+    pos = (0, 0)
+    pygame.mouse.set_visible(False)
     while True:
         clock.tick(30)
         for event in pygame.event.get():
@@ -80,6 +88,8 @@ def start_screen(screen, clock):
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 return
+            if event.type == pygame.MOUSEMOTION:
+                pos = event.pos
         if x <= -5000:
             x = 0
         x += v
@@ -95,6 +105,8 @@ def start_screen(screen, clock):
         else:
             screen.blit(plot_img, (x + 1100, 300))
             screen.blit(turtle_anim[int(c // 3.8)], (300, 300))
+        if pygame.mouse.get_focused():
+            screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
         pygame.display.flip()
 
 
