@@ -19,8 +19,8 @@ class Turtle:
         self.anim_step = 0
         self.turtle_damage = pygame.image.load('assets/texture/turtle/turtle_0.png')
         i_spawn = False
-        for y in range(spawn_y, spawn_y + 20):
-            for x in range(spawn_x, spawn_x + 20):
+        for y in range(spawn_y, spawn_y + 30):
+            for x in range(spawn_x, spawn_x + 30):
                 if isinstance(block_map.board[y][x], Grass):
                     entity_map.board[y][x] = self
                     self.cords = (x, y)
