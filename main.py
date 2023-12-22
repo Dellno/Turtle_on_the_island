@@ -3,13 +3,16 @@ from map import Map
 from entity_map import EntityMap
 import sys
 from turtle import Turtle
+from island import Island
+from stone import Stone
+from dirt_block import Grass
 
 
 def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, pos):
     screen.fill((0, 0, 0))
     board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
     entity_board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
-    if pygame.mouse.get_focused():
+    if pygame.mouse.get_focused() and pix_x == 0 and pix_y == 0:
         screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
     pygame.display.flip()
     clock.tick(fps)
@@ -20,12 +23,14 @@ def main():
     screen = pygame.display.set_mode(size)
     board = Map(256, 256, screen)
     entity_board = EntityMap(256, 256, screen)
-    fps = 60
+    entity_board.generate_entity(128, 128, 20, 20, 20, Stone(), board, Grass)
+    fps = 30
     clock = pygame.time.Clock()
     start_screen(screen, clock)
     turt = Turtle(128, 128, board, entity_board)
     running = True
     mouse_pos = (0, 0)
+
     pygame.mouse.set_visible(False)
     while running:
         for event in pygame.event.get():

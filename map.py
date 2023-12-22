@@ -11,12 +11,12 @@ class Map:
         self.width = width
         self.height = height
         self.board = [[Water()] * width for _ in range(height)]
-        Island(128, 128, 20, 20, self.board)
+        self.start_island = Island(128, 128, 20, 20, self)
         self.cell_size = 128
         self.screen = screen
 
-    # cell_x и cell_y это координаты на которых стоит черепашка, они будут центральными. (от 0 до размера карты - 1)
-    # pix_x и pix_y это координаты смещения, необходимы для синхронизации движения карты с движением черепашки. (-128, 128)
+    # cell_x и cell_y это координаты на которых стоит черепашка, они будут центральными.
+    # pix_x и pix_y это координаты смещения, необходимы для синхронизации движения карты с движением черепашки.
     def render(self, cell_x: int, cell_y: int, pix_x=0, pix_y=0):
         self.left = cell_x - 5
         self.top = cell_y - 2
