@@ -9,5 +9,4 @@ class Magma(Block):
         super().__init__("magma.png")
 
     def block_event(self):
-        if randint(0, 10) == 0:
-            return "damage", -200
+        return "damage", -200

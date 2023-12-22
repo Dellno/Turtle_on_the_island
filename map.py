@@ -12,8 +12,8 @@ class Map:
         self.width = width
         self.height = height
         self.board = [[Water()] * width for _ in range(height)]
-        Island(128, 128, 20, 20, self.board)
-        CircleIsland(155, 155, 20, 20, self.board)
+        Island(128, 128, 10, 10, self)
+        CircleIsland(140, 140, 10, 10, self)
         self.cell_size = 128
         self.screen = screen
 

@@ -7,6 +7,7 @@ from sharp_stone import SharpStone
 from map import Map
 from dirt_block import Grass
 
+
 class EntityMap(Map):
     def __init__(self, width, height, screen):
         self.width = width
@@ -16,7 +17,6 @@ class EntityMap(Map):
         self.screen = screen
 
     def generate_entity(self, start_x, start_y, width, height, luck, entity, block_map, block_type):
-        print(entity)
         for y in range(start_y, start_y + height):
             for x in range(start_x, start_x + width):
                 ran = randint(1, 100 // luck)

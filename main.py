@@ -36,6 +36,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.MOUSEMOTION:
+                mouse_pos = event.pos
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = board.get_click(event.pos)
                 if turt.is_correct_move(x, y):
@@ -57,11 +59,11 @@ def main():
                         turt.rotate = 0
                         dy = -1
                         dx = 0
-                    for i in range(len(turt.anim[turt.rotate])):
+                    for i in range(8):
                         turt.anim_step = i
                         render_game(screen, board, entity_board, turt, clock, fps,
-                                    -128 // len(turt.anim[turt.rotate]) * i * dx,
-                                    -128 // len(turt.anim[turt.rotate]) * i * dy, mouse_pos)
+                                    -128 // 8 * i * dx,
+                                    -128 // 8 * i * dy, mouse_pos)
                     turt.anim_step = 0
                     turt.move(x, y)
                     turt.cords = (x, y)
