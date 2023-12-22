@@ -2,6 +2,7 @@ import pygame
 from block import Block
 from water_block import Water
 from dirt_block import Grass
+from circle_island import CircleIsland
 from island import Island
 from turtle import Turtle
 
@@ -12,6 +13,7 @@ class Map:
         self.height = height
         self.board = [[Water()] * width for _ in range(height)]
         Island(128, 128, 20, 20, self.board)
+        CircleIsland(155, 155, 20, 20, self.board)
         self.cell_size = 128
         self.screen = screen
 
