@@ -21,6 +21,4 @@ class EntityMap(Map):
             for x in range(start_x, start_x + width):
                 ran = randint(1, 100 // luck)
                 if ran == 1 and self.board[y][x] is None and isinstance(block_map.board[y][x], block_type):
-                    print('yes')
                     self.board[y][x] = entity
-                    print(self.board[y][x])

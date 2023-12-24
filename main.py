@@ -13,6 +13,11 @@ def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, po
     entity_board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
     if pygame.mouse.get_focused() and pix_x == 0 and pix_y == 0:
         screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
+        x, y = pos[0] // 128, pos[1] // 128
+        pygame.draw.rect(screen, (255, 255, 255), (x * 128,
+                                                   y * 128,
+                                                   128,
+                                                   128), 3)
     pygame.display.flip()
     clock.tick(fps)
 
@@ -37,36 +42,39 @@ def main():
                 running = False
             if event.type == pygame.MOUSEMOTION:
                 mouse_pos = event.pos
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = board.get_click(event.pos)
-                if turt.is_correct_move(x, y):
-                    dx = 0
-                    dy = 0
-                    if x > turt.cords[0]:
-                        turt.rotate = 1
-                        dx = 1
-                        dy = 0
-                    if x < turt.cords[0]:
-                        turt.rotate = 3
-                        dx = -1
-                        dy = 0
-                    if y > turt.cords[1]:
-                        turt.rotate = 2
-                        dy = 1
+                if event.button == 1:
+                    if turt.is_correct_move(x, y):
                         dx = 0
-                    if y < turt.cords[1]:
-                        turt.rotate = 0
-                        dy = -1
-                        dx = 0
-                    for i in range(8):
-                        turt.anim_step = i
-                        render_game(screen, board, entity_board, turt, clock, fps,
-                                    -128 // 8 * i * dx,
-                                    -128 // 8 * i * dy, mouse_pos)
-                    turt.anim_step = 0
-                    turt.move(x, y)
-                    turt.cords = (x, y)
-
+                        dy = 0
+                        if x > turt.cords[0]:
+                            turt.rotate = 1
+                            dx = 1
+                            dy = 0
+                        if x < turt.cords[0]:
+                            turt.rotate = 3
+                            dx = -1
+                            dy = 0
+                        if y > turt.cords[1]:
+                            turt.rotate = 2
+                            dy = 1
+                            dx = 0
+                        if y < turt.cords[1]:
+                            turt.rotate = 0
+                            dy = -1
+                            dx = 0
+                        for i in range(8):
+                            turt.anim_step = i
+                            render_game(screen, board, entity_board, turt, clock, fps,
+                                        -128 // 8 * i * dx,
+                                        -128 // 8 * i * dy, mouse_pos)
+                        turt.anim_step = 0
+                        turt.move(x, y)
+                        turt.cords = (x, y)
+                if event.button == 3:
+                    turt.inventory_move(x, y)
         render_game(screen, board, entity_board, turt, clock, fps, 0, 0, mouse_pos)
 
 

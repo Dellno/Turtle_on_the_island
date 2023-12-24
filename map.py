@@ -16,6 +16,8 @@ class Map:
         CircleIsland(140, 140, 10, 10, self)
         self.cell_size = 128
         self.screen = screen
+        self.left = 0
+        self.top = 0
 
     # cell_x и cell_y это координаты на которых стоит черепашка, они будут центральными. (от 0 до размера карты - 1)
     # pix_x и pix_y это координаты смещения, необходимы для синхронизации движения карты с движением черепашки. (-128, 128)
@@ -44,23 +46,8 @@ class Map:
             drx = -((cell_x - 5) * 128) + pix_x
 
     def get_cell(self, mouse):
-        cell_y = None
-        cell_x = None
-        y_range = self.cell_size
-        for y in range(len(self.board)):
-            if int(mouse[1]) in range(y_range):
-                cell_y = y
-                break
-            y_range += self.cell_size
-
-        x_range = self.cell_size
-        for x in range(len(self.board[0])):
-            if int(mouse[0]) in range(x_range):
-                cell_x = x
-                break
-            x_range += self.cell_size
-        if cell_y is None or cell_x is None:
-            return None
+        cell_y = mouse[1] // 128
+        cell_x = mouse[0] // 128
         return cell_x + self.left, cell_y + self.top
 
     def get_click(self, mouse_pos):

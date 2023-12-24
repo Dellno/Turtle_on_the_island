@@ -16,6 +16,8 @@ class Turtle:
         self.cords = (spawn_x, spawn_y)
         self.anim = [[pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_' + str(i) + '.png'),
                                               j) for i in range(1, 17)] for j in [0, 270, 180, 90]]
+        self.inventory = None
+        self.max_hardness = 0
         self.rotate = 0
         self.anim_step = 0
         self.turtle_damage = pygame.image.load('assets/texture/turtle/turtle_0.png')
@@ -38,6 +40,8 @@ class Turtle:
             screen.blit(self.anim[self.rotate][self.anim_step + 8], (x, y))
         else:
             screen.blit(self.anim[self.rotate][self.anim_step], (x, y))
+        if not self.inventory is None:
+            self.inventory.render(x, y, screen)
 
     def is_correct_move(self, x, y):
         if (((self.cords[0] != x) ^ (self.cords[1] != y)) and self.entity_map.board[y][x] is None
@@ -55,5 +59,19 @@ class Turtle:
         self.entity_map.board[self.cords[1]][self.cords[0]] = None
         self.entity_map.board[y][x] = self
 
-    def inventory_add(self, x, y):
-        pass
+    def inventory_move(self, x, y):
+        if self.entity_map.board[y][x] is None:
+            self.entity_map.board[y][x] = self.inventory
+            self.inventory = None
+            self.max_hardness = 0
+        else:
+            try:
+                if (self.entity_map.board[y][x].destroy(self.max_hardness)
+                        and abs(x - self.cords[0]) <= 1
+                        and abs(y - self.cords[1]) <= 1):
+                    item = self.entity_map.board[y][x]
+                    self.entity_map.board[y][x] = self.inventory
+                    self.inventory = item
+                    self.max_hardness = self.inventory.hardness
+            except Exception:
+                pass

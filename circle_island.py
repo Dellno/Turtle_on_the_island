@@ -53,7 +53,6 @@ class CircleIsland:
                 delta += 2 * (x - y)
                 x += 1
                 y -= 1
-            print(t)
             self.width -= 2
             self.height -= 2
             self.x += 2
