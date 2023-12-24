@@ -54,3 +54,6 @@ class Turtle:
             print(self.stat)
         self.entity_map.board[self.cords[1]][self.cords[0]] = None
         self.entity_map.board[y][x] = self
+
+    def inventory_add(self, x, y):
+        pass

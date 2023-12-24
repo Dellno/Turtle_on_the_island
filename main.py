@@ -3,7 +3,6 @@ from map import Map
 from entity_map import EntityMap
 import sys
 from turtle import Turtle
-from island import Island
 from stone import Stone
 from dirt_block import Grass
 
@@ -19,7 +18,7 @@ def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, po
 
 
 def main():
-    size = width, height = 1408, 640
+    size = 1408, 640
     screen = pygame.display.set_mode(size)
     board = Map(256, 256, screen)
     entity_board = EntityMap(256, 256, screen)
