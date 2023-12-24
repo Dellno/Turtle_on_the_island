@@ -13,5 +13,5 @@ class Entity:
             return True
         return False
 
-    def render(self, x, y, screen):
-        screen.blit(self.img, (x, y))
+    def render(self, x, y, screen, rotate=0):
+        screen.blit(pygame.transform.rotate(self.img, rotate), (x, y))

@@ -5,6 +5,7 @@ import sys
 from turtle import Turtle
 from stone import Stone
 from dirt_block import Grass
+from entity import Entity
 
 
 def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, pos):

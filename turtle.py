@@ -41,7 +41,7 @@ class Turtle:
         else:
             screen.blit(self.anim[self.rotate][self.anim_step], (x, y))
         if not self.inventory is None:
-            self.inventory.render(x, y, screen)
+            self.inventory.render(x, y, screen, rotate=360 - self.rotate * 90)
 
     def is_correct_move(self, x, y):
         if (((self.cords[0] != x) ^ (self.cords[1] != y)) and self.entity_map.board[y][x] is None
