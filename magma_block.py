@@ -6,7 +6,7 @@ from block import Block
 
 class Magma(Block):
     def __init__(self):
-        super().__init__("magma.png")
+        super().__init__("lava1")
 
     def block_event(self):
         return "damage", -200

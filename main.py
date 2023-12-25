@@ -13,7 +13,7 @@ def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, po
     board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
     entity_board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
     if pygame.mouse.get_focused() and pix_x == 0 and pix_y == 0:
-        screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
+        screen.blit(pygame.image.load('assets/texture/arrow1.png'), pos)
         x, y = pos[0] // 128, pos[1] // 128
         pygame.draw.rect(screen, (255, 255, 255), (x * 128,
                                                    y * 128,
@@ -122,7 +122,7 @@ def start_screen(screen, clock):
             screen.blit(plot_img, (x + 1100, 300))
             screen.blit(turtle_anim[int(c // 3.8)], (300, 300))
         if pygame.mouse.get_focused():
-            screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
+            screen.blit(pygame.image.load('assets/texture/arrow1.png'), pos)
         pygame.display.flip()
 
 
