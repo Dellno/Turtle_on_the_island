@@ -28,7 +28,8 @@ def main():
     screen = pygame.display.set_mode(size)
     board = Map(256, 256, screen)
     entity_board = EntityMap(256, 256, screen)
-    entity_board.generate_entity(128, 128, 20, 20, 20, Stone(), board, Grass)
+    entity_board.generate_entity(128, 128, 10, 10, 10, Stone(), board, Grass)
+
     fps = 30
     clock = pygame.time.Clock()
     start_screen(screen, clock)
@@ -76,6 +77,8 @@ def main():
                         turt.cords = (x, y)
                 if event.button == 3:
                     turt.inventory_move(x, y)
+                if event.button == 2:
+                    turt.crafter(x, y)
         render_game(screen, board, entity_board, turt, clock, fps, 0, 0, mouse_pos)
 
 

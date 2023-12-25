@@ -6,7 +6,7 @@ class Entity:
     def __init__(self, name: str, sprite='nnn_crystal.png', hardness=-1):
         self.hardness = hardness
         self.name = name
-        self.img = load_sprite("assets/texture/entity/" + sprite, -1)
+        self.img = load_sprite("assets/texture/entity/" + sprite)
 
     def destroy(self, instrument_level):
         if self.hardness != -1 and instrument_level >= self.hardness:

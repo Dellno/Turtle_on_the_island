@@ -1,3 +1,5 @@
+import time
+
 import pygame
 
 import dirt_block
@@ -5,6 +7,9 @@ from entity import Entity
 from block import Block
 from dirt_block import Grass
 from water_block import Water
+from stone import Stone
+from sharp_stone import SharpStone
+from crafts_map import CRAFTS_MAP
 
 
 class Turtle:
@@ -62,6 +67,9 @@ class Turtle:
     def inventory_move(self, x, y):
         if self.entity_map.board[y][x] is None:
             self.entity_map.board[y][x] = self.inventory
+            if isinstance(self.block_map.board[y][x], Water):
+                self.entity_map.board[y][x] = None
+
             self.inventory = None
             self.max_hardness = 0
         else:
@@ -75,3 +83,22 @@ class Turtle:
                     self.max_hardness = self.inventory.hardness
             except Exception:
                 pass
+
+    def crafter(self, x, y):
+        name_data = {"stone": Stone(), "sharp_stone": SharpStone(), None: None}
+        element_0 = self.object_is_real(self.inventory)
+        element_1 = self.object_is_real(self.entity_map.board[y][x])
+        if ((element_0, element_1) in CRAFTS_MAP
+                and abs(x - self.cords[0]) <= 1
+                and abs(y - self.cords[1]) <= 1):
+            self.entity_map.board[y][x] = name_data[CRAFTS_MAP[(element_0, element_1)][1]]
+            self.inventory = name_data[CRAFTS_MAP[(element_0, element_1)][0]]
+            if self.object_is_real(self.inventory):
+                self.max_hardness = self.inventory.hardness
+                return
+            self.max_hardness = 0
+
+    def object_is_real(self, object):
+        if not object is None:
+            return object.name
+        return None
