@@ -3,9 +3,10 @@ from load_sprite import load_sprite
 
 
 class Entity:
-    def __init__(self, name: str, sprite='nnn_crystal.png', hardness=-1):
+    def __init__(self, name: str, sprite='nnn_crystal.png', hardness=-1, weight=1):
         self.hardness = hardness
         self.name = name
+        self.weight = weight
         self.img = load_sprite("assets/texture/entity/" + sprite)
 
     def destroy(self, instrument_level):

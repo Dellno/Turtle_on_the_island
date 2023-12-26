@@ -31,7 +31,7 @@ def main():
     entity_board = EntityMap(256, 256, screen)
     entity_board.generate_entity(128, 128, 10, 10, 10, Stone(), board, Grass)
     entity_board.generate_entity(140, 140, 20, 20, 20, Tree(), board, Grass)
-    entity_board.generate_entity(140, 140, 20, 20, 20, Paporotnik(), board, Grass)
+    entity_board.generate_entity(135, 135, 20, 20, 20, Paporotnik(), board, Grass)
 
     fps = 30
     clock = pygame.time.Clock()

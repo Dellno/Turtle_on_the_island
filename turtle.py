@@ -76,7 +76,7 @@ class Turtle:
     def inventory_move(self, x, y):
         if self.entity_map.board[y][x] is None:
             self.entity_map.board[y][x] = self.inventory
-            if isinstance(self.block_map.board[y][x], Water):
+            if isinstance(self.block_map.board[y][x], Water) and self.inventory.weight >= 1:
                 self.entity_map.board[y][x] = None
 
             self.inventory = None
