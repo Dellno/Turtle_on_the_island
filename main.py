@@ -77,10 +77,10 @@ def main():
                         turt.anim_step = 0
                         turt.move(x, y)
                         turt.cords = (x, y)
+                    else:
+                        turt.crafter(x, y)
                 if event.button == 3:
                     turt.inventory_move(x, y)
-                if event.button == 2:
-                    turt.crafter(x, y)
         render_game(screen, board, entity_board, turt, clock, fps, 0, 0, mouse_pos)
 
 
