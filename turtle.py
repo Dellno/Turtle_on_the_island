@@ -9,8 +9,10 @@ from dirt_block import Grass
 from water_block import Water
 from stone import Stone
 from sharp_stone import SharpStone
+from brevno import Brevno
 from crafts_map import CRAFTS_MAP
-
+from paporotnik import Paporotnik
+from thread import Thread
 
 class Turtle:
     def __init__(self, spawn_x, spawn_y, block_map, entity_map):
@@ -85,7 +87,8 @@ class Turtle:
                 pass
 
     def crafter(self, x, y):
-        name_data = {"stone": Stone(), "sharp_stone": SharpStone(), None: None}
+        name_data = {"stone": Stone(), "sharp_stone": SharpStone(), None: None, "brevno": Brevno(),
+                     "paporotnic": Paporotnik(), "thread": Thread()}
         element_0 = self.object_is_real(self.inventory)
         element_1 = self.object_is_real(self.entity_map.board[y][x])
         if ((element_0, element_1) in CRAFTS_MAP
