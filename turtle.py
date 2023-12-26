@@ -13,6 +13,13 @@ from brevno import Brevno
 from crafts_map import CRAFTS_MAP
 from paporotnik import Paporotnik
 from thread import Thread
+from stick import Stick
+from tree import Tree
+from brevno2 import Brevno_2
+from brevno3 import Brevno_3
+from brevno4 import Brevno_4
+from plot import Plot
+
 
 class Turtle:
     def __init__(self, spawn_x, spawn_y, block_map, entity_map):
@@ -88,7 +95,9 @@ class Turtle:
 
     def crafter(self, x, y):
         name_data = {"stone": Stone(), "sharp_stone": SharpStone(), None: None, "brevno": Brevno(),
-                     "paporotnic": Paporotnik(), "thread": Thread()}
+                     "paporotnic": Paporotnik(), "thread": Thread(), "stick": Stick(), "tree": Tree(),
+                     "brevno_2": Brevno_2(), "brevno_3": Brevno_3(), "brevno_4": Brevno_4(), "plot": Plot()
+                     }
         element_0 = self.object_is_real(self.inventory)
         element_1 = self.object_is_real(self.entity_map.board[y][x])
         if ((element_0, element_1) in CRAFTS_MAP

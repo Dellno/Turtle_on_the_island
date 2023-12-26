@@ -8,6 +8,7 @@ from dirt_block import Grass
 from tree import Tree
 from paporotnik import Paporotnik
 
+
 def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, pos):
     screen.fill((0, 0, 0))
     board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
