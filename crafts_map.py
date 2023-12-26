@@ -1,4 +1,3 @@
-from sharp_stone import SharpStone
 CRAFTS_MAP = {
     # (предмет в инвенторе, предмет рядом):(предмет в инвенторе, новый предмет рядом)
     ("stone", "stone"): (None, "sharp_stone"),
@@ -12,5 +11,4 @@ CRAFTS_MAP = {
     (None, 'brevno_2'): ('brevno', 'brevno'),
     (None, 'brevno_3'): ('brevno', 'brevno_2'),
     (None, 'brevno_4'): ('brevno', 'brevno_3')
-
-}  # сдесь записываются крафты в формате [entity_name, entity_name]: entity
+}
