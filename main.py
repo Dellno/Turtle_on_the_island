@@ -25,15 +25,15 @@ def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, po
 
 
 def main():
-    size = 1408, 640
-    screen = pygame.display.set_mode(size)
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    print(screen.get_width(), screen.get_height())
     board = Map(256, 256, screen)
     entity_board = EntityMap(256, 256, screen)
     entity_board.generate_entity(128, 128, 10, 10, 10, Stone(), board, Grass)
     entity_board.generate_entity(140, 140, 20, 20, 20, Tree(), board, Grass)
     entity_board.generate_entity(135, 135, 20, 20, 20, Paporotnik(), board, Grass)
 
-    fps = 30
+    fps = 60
     clock = pygame.time.Clock()
     start_screen(screen, clock)
     turt = Turtle(128, 128, board, entity_board)
@@ -86,7 +86,7 @@ def main():
 
 
 def start_screen(screen, clock):
-    fon = pygame.image.load('assets/texture/fon.png')
+    fon = pygame.transform.scale(pygame.image.load('assets/texture/fon.png'), (5000, screen.get_height()))
     plot_img = pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot.png'), 270)
     turtle_anim = [pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_' + str(i) + '.png'),
                                            270) for i in range(1, 9)]
@@ -95,7 +95,7 @@ def start_screen(screen, clock):
     turt = pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_1.png'), 270)
 
     v = -2
-    x, y = 0, -300
+    x, y = 0, 0
     c = 0
     pos = (0, 0)
     pygame.mouse.set_visible(False)
@@ -119,11 +119,11 @@ def start_screen(screen, clock):
         screen.blit(fon, (x + 5000, y))
 
         if x in range(-2670, -800):
-            screen.blit(plot_anim[int((c % 7) // 4)], (280, 300))
-            screen.blit(turt, (300, 300))
+            screen.blit(plot_anim[int((c % 7) // 4)], (280, screen.get_height() // 2))
+            screen.blit(turt, (300, screen.get_height() // 2))
         else:
-            screen.blit(plot_img, (x + 1100, 300))
-            screen.blit(turtle_anim[int(c // 3.8)], (300, 300))
+            screen.blit(plot_img, (x + 1100, screen.get_height() // 2))
+            screen.blit(turtle_anim[int(c // 3.8)], (300, screen.get_height() // 2))
         if pygame.mouse.get_focused():
             screen.blit(pygame.image.load('assets/texture/arrow1.png'), pos)
         pygame.display.flip()

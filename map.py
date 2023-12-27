@@ -22,28 +22,28 @@ class Map:
     # cell_x и cell_y это координаты на которых стоит черепашка, они будут центральными. (от 0 до размера карты - 1)
     # pix_x и pix_y это координаты смещения, необходимы для синхронизации движения карты с движением черепашки. (-128, 128)
     def render(self, cell_x: int, cell_y: int, pix_x=0, pix_y=0):
-        self.left = cell_x - 5
-        self.top = cell_y - 2
+        self.left = cell_x - self.screen.get_width() // 128 // 2
+        self.top = cell_y - self.screen.get_height() // 128 // 2
 
-        drx, dry = -((cell_x - 5) * 128) + pix_x, -((cell_y - 2) * 128) + pix_y
+        drx, dry = -(self.left * 128) + pix_x, -(self.top * 128) + pix_y
         step = self.cell_size
         for y in range(len(self.board)):
-            if y not in range(cell_y - 3, cell_y + 3 + 1):
+            if y not in range(self.top - 1, cell_y + self.screen.get_height() // 128 // 2 + 2):
                 dry += step
                 continue
-            if y > (cell_y + 11 + 1):
+            if y > (cell_y + self.screen.get_height() // 128 + 1):
                 break
             for x in range(len(self.board[0])):
-                if x in range(cell_x - 6, cell_x + 6 + 1):
+                if x in range(self.left - 1, cell_x + self.screen.get_width() // 128 // 2 + 2):
                     if not (self.board[y][x] is None) and not isinstance(self.board[y][x], Turtle):
                         self.board[y][x].render(drx, dry, self.screen)
                     elif isinstance(self.board[y][x], Turtle):
                         self.board[y][x].render(drx - pix_x, dry - pix_y, self.screen)
-                if x > cell_x + 15 + 1:
+                if x > cell_x + self.screen.get_width() // 128 + 1:
                     break
                 drx += step
             dry += step
-            drx = -((cell_x - 5) * 128) + pix_x
+            drx = -(self.left * 128) + pix_x
 
     def get_cell(self, mouse):
         cell_y = mouse[1] // 128
