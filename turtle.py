@@ -35,6 +35,7 @@ class Turtle:
         self.rotate = 0
         self.anim_step = 0
         self.turtle_damage = pygame.image.load('assets/texture/turtle/turtle_0.png')
+        self.in_plot = False
         i_spawn = False
         for y in range(spawn_y, spawn_y + 30):
             for x in range(spawn_x, spawn_x + 30):
@@ -50,27 +51,43 @@ class Turtle:
             entity_map.board[spawn_y][spawn_x] = self
 
     def render(self, x, y, screen):
-        if isinstance(self.block_map.board[self.cords[1]][self.cords[0]], Water):
+        if isinstance(self.block_map.board[self.cords[1]][self.cords[0]], Water) and not self.in_plot:
             screen.blit(self.anim[self.rotate][self.anim_step + 8], (x, y))
-        else:
+        elif not self.in_plot:
             screen.blit(self.anim[self.rotate][self.anim_step], (x, y))
+        else:
+            if self.anim_step != 0:
+                Plot().render(x, y, screen, 360 - self.rotate * 90, self.anim_step)
+            else:
+                Plot().render(x, y, screen, 360 - self.rotate * 90)
+            screen.blit(self.anim[self.rotate][0], (x, y))
         if not self.inventory is None:
             self.inventory.render(x, y, screen, rotate=360 - self.rotate * 90)
 
     def is_correct_move(self, x, y):
-        if (((self.cords[0] != x) ^ (self.cords[1] != y)) and self.entity_map.board[y][x] is None
+        if (((self.cords[0] != x) ^ (self.cords[1] != y)) and
+                (self.entity_map.board[y][x] is None
+                 or isinstance(self.entity_map.board[y][x], Plot))
                 and abs(x - self.cords[0]) <= 1
                 and abs(y - self.cords[1]) <= 1):
+            if (not isinstance(self.block_map.board[y][x], Water)) and self.in_plot:
+                self.in_plot = False
+                self.entity_map.board[self.cords[1]][self.cords[0]] = Plot()
+            elif isinstance(self.entity_map.board[y][x], Plot):
+                self.in_plot = True
+                self.entity_map.board[y][x] = None
             return True
         return False
 
     def move(self, x, y):
         print(x, y)
-        block_event = self.block_map.board[y][x].block_event()
-        if not (block_event is None):
-            self.stat[block_event[0]] += block_event[1]
+        if not self.in_plot:
+            block_event = self.block_map.board[y][x].block_event()
+            if not (block_event is None):
+                self.stat[block_event[0]] += block_event[1]
             print(self.stat)
-        self.entity_map.board[self.cords[1]][self.cords[0]] = None
+        if not isinstance(self.entity_map.board[self.cords[1]][self.cords[0]], Plot):
+            self.entity_map.board[self.cords[1]][self.cords[0]] = None
         self.entity_map.board[y][x] = self
 
     def inventory_move(self, x, y):
