@@ -67,7 +67,7 @@ class Turtle:
     def is_correct_move(self, x, y):
         if (((self.cords[0] != x) ^ (self.cords[1] != y)) and
                 (self.entity_map.board[y][x] is None
-                 or isinstance(self.entity_map.board[y][x], Plot))
+                 or (isinstance(self.entity_map.board[y][x], Plot) and isinstance(self.block_map.board[y][x], Water)))
                 and abs(x - self.cords[0]) <= 1
                 and abs(y - self.cords[1]) <= 1):
             if (not isinstance(self.block_map.board[y][x], Water)) and self.in_plot:
