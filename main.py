@@ -7,6 +7,7 @@ from stone import Stone
 from dirt_block import Grass
 from tree import Tree
 from paporotnik import Paporotnik
+from endurance_crystal import EnduranceCrystal
 
 
 def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, pos):
@@ -32,6 +33,7 @@ def main():
     entity_board.generate_entity(128, 128, 10, 10, 10, Stone(), board, Grass)
     entity_board.generate_entity(140, 140, 20, 20, 20, Tree(), board, Grass)
     entity_board.generate_entity(135, 135, 20, 20, 20, Paporotnik(), board, Grass)
+    entity_board.generate_entity(128, 128, 10, 10, 5, EnduranceCrystal(), board, Grass)
 
     fps = 60
     clock = pygame.time.Clock()
@@ -39,7 +41,6 @@ def main():
     turt = Turtle(128, 128, board, entity_board)
     running = True
     mouse_pos = (0, 0)
-
     pygame.mouse.set_visible(False)
     while running:
         for event in pygame.event.get():

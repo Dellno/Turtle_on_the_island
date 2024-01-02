@@ -19,7 +19,8 @@ from brevno2 import Brevno_2
 from brevno3 import Brevno_3
 from brevno4 import Brevno_4
 from plot import Plot
-
+from health_crystal import HealthCrystal
+from endurance_crystal import EnduranceCrystal
 
 class Turtle:
     def __init__(self, spawn_x, spawn_y, block_map, entity_map):
@@ -85,6 +86,7 @@ class Turtle:
             block_event = self.block_map.board[y][x].block_event()
             if not (block_event is None):
                 self.stat[block_event[0]] += block_event[1]
+                print(self.stat)
             # print(self.stat)
         if not isinstance(self.entity_map.board[self.cords[1]][self.cords[0]], Plot):
             self.entity_map.board[self.cords[1]][self.cords[0]] = None
@@ -116,7 +118,8 @@ class Turtle:
     def crafter(self, x, y):
         name_data = {"stone": Stone(), "sharp_stone": SharpStone(), None: None, "brevno": Brevno(),
                      "paporotnic": Paporotnik(), "thread": Thread(), "stick": Stick(), "tree": Tree(),
-                     "brevno_2": Brevno_2(), "brevno_3": Brevno_3(), "brevno_4": Brevno_4(), "plot": Plot()
+                     "brevno_2": Brevno_2(), "brevno_3": Brevno_3(), "brevno_4": Brevno_4(), "plot": Plot(),
+                     "health_cristal": HealthCrystal(), "endurance_crystal": EnduranceCrystal()
                      }
         element_0 = self.object_is_real(self.inventory)
         element_1 = self.object_is_real(self.entity_map.board[y][x])
@@ -127,8 +130,16 @@ class Turtle:
             self.inventory = name_data[CRAFTS_MAP[(element_0, element_1)][0]]
             if self.object_is_real(self.inventory):
                 self.max_hardness = self.inventory.hardness
-                return
-            self.max_hardness = 0
+            else:
+                self.max_hardness = 0
+            if self.object_is_real(name_data[CRAFTS_MAP[(element_0, element_1)][2]]):
+                if (name_data[CRAFTS_MAP[(element_0, element_1)][2]].name == "endurance_crystal"
+                        and self.stat["endurance"] < self.stat["max_endurance"]):
+                    self.stat["endurance"] += 1
+                elif (name_data[CRAFTS_MAP[(element_0, element_1)][2]].name == "health_cristal"
+                        and self.stat["damage"] < self.stat["max_damage"]):
+                    self.stat["endurance"] += 1
+                print(self.stat)
 
     def object_is_real(self, object):
         if not object is None:
