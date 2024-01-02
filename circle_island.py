@@ -8,19 +8,18 @@ from water_block import Water
 
 
 class CircleIsland:
-    def __init__(self, x, y, width, height, set_map, island_block=None):
+    def __init__(self, x, y, radius, set_map, island_block=None):
         if island_block is None:
             island_block = [Grass(0)]
-        self.x = x - 10
-        self.y = y - 10
-        self.width = width
-        self.height = height
+        self.radius = radius
+        self.x = x - self.radius
+        self.y = y - self.radius
         self.map = set_map
         self.island_block = island_block[:]
         self.generate_form()
 
     def generate_form(self):
-        X1, Y1, R = self.width, self.height, self.width // 2
+        per, R = self.radius * 2, self.radius
         x = 0
         y = R
         t = 0
@@ -44,58 +43,56 @@ class CircleIsland:
             6: num5
         }
 
-        # for i in range(5):
-        #     texture_options1 = [value for key, value in texture_percentages.items()]
-        #     for j in range(texture_options1[i]):
-        #         texture_options = [key for key, value in texture_percentages.items()]
-        #         print(texture_options[i])
-        #         if texture_options[i] == int(5):
-        #             island_block = [Ash()]
-        #         elif texture_options[i] == int(6):
-        #             island_block = [Magma()]
-        #         else:
-        #             island_block = [Grass(int(texture_options[i]))]
-        #         self.island_block = island_block[:]
-        while y >= x:
-            t += 1
-            self.map.board[X1 + x + self.x][Y1 + y + self.y] = self.island_block[0]
-            self.map.board[X1 + x + self.x - 1][Y1 + y + self.y] = self.island_block[0]
-            # self.map.board[X1 + x + self.x][Y1 - y + self.y] = self.island_block[0]
-            self.map.board[X1 + x + self.x + 1][Y1 - y + self.y] = self.island_block[0]
-            # self.map.board[X1 - x + self.x][Y1 + y + self.y] = self.island_block[0]
-            # self.map.board[X1 - x + self.x - 1][Y1 + y + self.y] = self.island_block[0]
-            self.map.board[X1 - x + self.x][Y1 - y + self.y] = self.island_block[0]
-            self.map.board[X1 - x + self.x + 1][Y1 - y + self.y] = self.island_block[0]
-            self.map.board[X1 + y + self.x][Y1 + x + self.y] = self.island_block[0]
-            self.map.board[X1 + y + self.x][Y1 + x + self.y - 1] = self.island_block[0]
-            # self.map.board[X1 + y + self.x][Y1 - x + self.y] = self.island_block[0]
-            # self.map.board[X1 + y + self.x][Y1 - x + self.y - 1] = self.island_block[0]
-            self.map.board[X1 - y + self.x][Y1 + x + self.y] = self.island_block[0]
-            self.map.board[X1 - y + self.x][Y1 + x + self.y + 1] = self.island_block[0]
-            self.map.board[X1 - y + self.x][Y1 - x + self.y] = self.island_block[0]
-            self.map.board[X1 - y + self.x][Y1 - x + self.y + 1] = self.island_block[0]
+        for i in range(5):
+            texture_options1 = [value for key, value in texture_percentages.items()]
+            for j in range(texture_options1[i]):
+                texture_options = [key for key, value in texture_percentages.items()]
+                if texture_options[i] == int(5):
+                    island_block = [Ash()]
+                elif texture_options[i] == int(6):
+                    island_block = [Magma()]
+                else:
+                    island_block = [Grass(int(texture_options[i]))]
+                self.island_block = island_block[:]
+                while y >= x:
+                    t += 1
+                    self.map.board[per + x + self.x][per + y + self.y] = self.island_block[0]
+                    self.map.board[per + x + self.x][per + y + self.y - 1] = self.island_block[0]
+                    self.map.board[per + x + self.x][per - y + self.y] = self.island_block[0]
+                    self.map.board[per + x + self.x][per - y + self.y + 1] = self.island_block[0]
+                    self.map.board[per - x + self.x][per + y + self.y] = self.island_block[0]
+                    self.map.board[per - x + self.x][per + y + self.y - 1] = self.island_block[0]
+                    self.map.board[per - x + self.x][per - y + self.y] = self.island_block[0]
+                    self.map.board[per - x + self.x][per - y + self.y + 1] = self.island_block[0]
+                    self.map.board[per + y + self.x][per + x + self.y] = self.island_block[0]
+                    self.map.board[per + y + self.x - 1][per + x + self.y] = self.island_block[0]
+                    self.map.board[per + y + self.x][per - x + self.y] = self.island_block[0]
+                    self.map.board[per + y + self.x - 1][per - x + self.y] = self.island_block[0]
+                    self.map.board[per - y + self.x][per + x + self.y] = self.island_block[0]
+                    self.map.board[per - y + self.x + 1][per + x + self.y] = self.island_block[0]
+                    self.map.board[per - y + self.x][per - x + self.y] = self.island_block[0]
+                    self.map.board[per - y + self.x + 1][per - x + self.y] = self.island_block[0]
 
-            error = 2 * (delta + y) - 1
+                    error = 2 * (delta + y) - 1
 
-            if delta < 0 and error <= 0:
-                delta += 2 * (x + 1)
-                x += 1
-                continue
+                    if delta < 0 and error <= 0:
+                        delta += 2 * (x + 1)
+                        x += 1
+                        continue
 
-            if delta > 0 and error > 0:
-                delta -= 2 * (y - 1)
-                y -= 1
-                continue
+                    if delta > 0 and error > 0:
+                        delta -= 2 * (y - 1)
+                        y -= 1
+                        continue
 
-            delta += 2 * (x - y)
-            x += 1
-            y -= 1
-                # self.width -= 2
-                # self.height -= 2
-                # self.x += 2
-                # self.y += 2
-                # X1, Y1, R = self.width, self.height, self.width // 2
-                # x = 0
-                # y = R
-                # delta = 1 - 2 * R
-                # error = 0
+                    delta += 2 * (x - y)
+                    x += 1
+                    y -= 1
+                self.radius -= 1
+                self.x += 2
+                self.y += 2
+                per, R = self.radius * 2, self.radius
+                x = 0
+                y = R
+                delta = 1 - 2 * R
+                error = 0

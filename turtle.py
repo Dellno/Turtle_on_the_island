@@ -85,7 +85,7 @@ class Turtle:
             block_event = self.block_map.board[y][x].block_event()
             if not (block_event is None):
                 self.stat[block_event[0]] += block_event[1]
-            print(self.stat)
+            # print(self.stat)
         if not isinstance(self.entity_map.board[self.cords[1]][self.cords[0]], Plot):
             self.entity_map.board[self.cords[1]][self.cords[0]] = None
         self.entity_map.board[y][x] = self
