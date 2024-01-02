@@ -36,6 +36,8 @@ class Turtle:
         self.rotate = 0
         self.anim_step = 0
         self.turtle_damage = pygame.image.load('assets/texture/turtle/turtle_0.png')
+        self.hp = pygame.transform.scale(pygame.image.load('assets/texture/entity/health_crystal.png'), (64, 64))
+        self.end = pygame.transform.scale(pygame.image.load('assets/texture/entity/endurance_crystal.png'), (64, 64))
         self.in_plot = False
         i_spawn = False
         for y in range(spawn_y, spawn_y + 30):
@@ -64,6 +66,12 @@ class Turtle:
             screen.blit(self.anim[self.rotate][0], (x, y))
         if not self.inventory is None:
             self.inventory.render(x, y, screen, rotate=360 - self.rotate * 90)
+        if self.stat['damage'] > 0:
+            for i in range(self.stat['damage']):
+                screen.blit(self.hp, (64 * i, 64))
+        if self.stat['endurance'] > 0:
+            for i in range(self.stat['endurance']):
+                screen.blit(self.end, (48 * i, 0))
 
     def is_correct_move(self, x, y):
         if (((self.cords[0] != x) ^ (self.cords[1] != y)) and
