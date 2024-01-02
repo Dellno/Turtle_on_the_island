@@ -1,10 +1,7 @@
-import pygame
 from random import randint
-import random
 from dirt_block import Grass
 from lava_block import Magma
 from ash_block import Ash
-from water_block import Water
 
 
 class CircleIsland:
@@ -26,10 +23,10 @@ class CircleIsland:
         delta = 1 - 2 * R
         error = 0
 
-        num2 = random.randint(1, R // 5)# если количество кругов от 5 до 9(R) то рандом не получается
-        num3 = random.randint(1, R // 5)#это происходит т.к. текстур 5 и чтобы не было багов
-        num4 = random.randint(1, R // 5)#чет с комментами плохо у меня и названия я с переводчиком делал(переменных)
-        num5 = random.randint(1, R // 5)
+        num2 = randint(1, R // 5)# если количество кругов от 5 до 9(R) то рандом не получается
+        num3 = randint(1, R // 5)#это происходит т.к. текстур 5 и чтобы не было багов
+        num4 = randint(1, R // 5)#чет с комментами плохо у меня и названия я с переводчиком делал(переменных)
+        num5 = randint(1, R // 5)
         num1 = R - (num5 + num2 + num3 + num4)
         num5 = num5 + 1
 
