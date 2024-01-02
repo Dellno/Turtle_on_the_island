@@ -16,6 +16,6 @@ class Grass(Block):
             super().__init__("ground_3.png")
         if texture_type == 4:
             super().__init__("ground_4.png")
-        if texture_type == 7:
+        if texture_type == 5:
             super().__init__("graviy.png")
 

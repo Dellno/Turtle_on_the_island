@@ -12,8 +12,8 @@ class CircleIsland:
         if island_block is None:
             island_block = [Grass(0)]
         self.radius = radius
-        self.x = x - self.radius
-        self.y = y - self.radius
+        self.x = x - self.radius * 2
+        self.y = y - self.radius * 2
         self.map = set_map
         self.island_block = island_block[:]
         self.generate_form()
@@ -38,8 +38,8 @@ class CircleIsland:
         texture_percentages = {
             0: num1,
             2: num2,
-            7: num3,
-            5: num4,
+            5: num3,
+            7: num4,
             6: num5
         }
 
@@ -47,7 +47,7 @@ class CircleIsland:
             texture_options1 = [value for key, value in texture_percentages.items()]
             for j in range(texture_options1[i]):
                 texture_options = [key for key, value in texture_percentages.items()]
-                if texture_options[i] == int(5):
+                if texture_options[i] == int(7):
                     island_block = [Ash()]
                 elif texture_options[i] == int(6):
                     island_block = [Magma()]
