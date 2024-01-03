@@ -149,7 +149,9 @@ class Turtle:
                     self.stat["endurance"] += 1
                 print(self.stat)
 
+
     def object_is_real(self, object):
         if not object is None:
             return object.name
         return None
+
