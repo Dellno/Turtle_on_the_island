@@ -282,9 +282,9 @@ def start_screen(screen, clock):
             screen.blit(pygame.image.load('assets/texture/new_game_1.png'), buttons_pos[0])
 
         if buttons_k2 == 0:
-            screen.blit(pygame.image.load('assets/texture/download_game.png'), buttons_pos[1])
+            screen.blit(pygame.image.load('assets/texture/load_game_1.png'), buttons_pos[1])
         else:
-            screen.blit(pygame.image.load('assets/texture/download_game_1.png'), buttons_pos[1])
+            screen.blit(pygame.image.load('assets/texture/load_game.png'), buttons_pos[1])
 
         if buttons_k3 == 0:
             screen.blit(pygame.image.load('assets/texture/how_to_play.png'), buttons_pos[2])
