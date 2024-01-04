@@ -15,20 +15,14 @@ def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, po
     screen.fill((0, 0, 0))
     board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
     entity_board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
-    if pygame.mouse.get_focused() and pix_x == 0 and pix_y == 0:
-        x, y = pos[0] // 128, pos[1] // 128
-        pygame.draw.rect(screen, (255, 255, 255), (x * 128, y * 128, 128, 128), 3)
-
     if buttons_k[0] == 0:
         screen.blit(pygame.image.load('assets/texture/save.png'), buttons_pos[0])
     else:
         screen.blit(pygame.image.load('assets/texture/save_1.png'), buttons_pos[0])
-    if buttons_k[1] == 0:
-        screen.blit(pygame.image.load('assets/texture/how_to_play.png'), buttons_pos[1])
-    else:
-        screen.blit(pygame.image.load('assets/texture/how_to_play_1.png'), buttons_pos[1])
-
-    screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
+    if pygame.mouse.get_focused() and pix_x == 0 and pix_y == 0:
+        x, y = pos[0] // 128, pos[1] // 128
+        pygame.draw.rect(screen, (255, 255, 255), (x * 128, y * 128, 128, 128), 3)
+        screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
     pygame.display.flip()
     clock.tick(fps)
 
