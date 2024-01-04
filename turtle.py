@@ -146,7 +146,7 @@ class Turtle:
                     self.stat["endurance"] += 1
                 elif (name_data[CRAFTS_MAP[(element_0, element_1)][2]].name == "health_cristal"
                         and self.stat["damage"] < self.stat["max_damage"]):
-                    self.stat["endurance"] += 1
+                    self.stat["damage"] += 1
                 print(self.stat)
 
 

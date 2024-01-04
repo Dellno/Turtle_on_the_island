@@ -9,6 +9,8 @@ from stone import Stone
 from dirt_block import Grass
 from tree import Tree
 from paporotnik import Paporotnik
+from endurance_crystal import EnduranceCrystal
+from health_crystal import HealthCrystal
 
 
 def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k):
@@ -39,6 +41,8 @@ def main():
     entity_board.generate_entity(128, 128, 10, 10, 10, Stone(), board, Grass)
     entity_board.generate_entity(140, 140, 20, 20, 20, Tree(), board, Grass)
     entity_board.generate_entity(135, 135, 20, 20, 20, Paporotnik(), board, Grass)
+    entity_board.generate_entity(80, 80, 100, 100, 10, EnduranceCrystal(), board, Grass)
+    entity_board.generate_entity(80, 80, 100, 100, 10, HealthCrystal(), board, Grass)
 
     fps = 30
     clock = pygame.time.Clock()
@@ -92,18 +96,22 @@ def main():
                     turt.inventory_move(x, y)
                 if event.button == 1:
                     x1, y1 = event.pos
-                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < buttons_pos[0][1] + 64:
+                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
+                            buttons_pos[0][1] + 64:
                         buttons_k[0] = 1
-                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < buttons_pos[1][1] + 64:
+                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
+                            buttons_pos[1][1] + 64:
                         buttons_k[1] = 1
             else:
                 buttons_k[0], buttons_k[1], = 0, 0
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     x1, y1 = event.pos
-                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < buttons_pos[0][1] + 64:
+                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
+                            buttons_pos[0][1] + 64:
                         return  # <--> сюда писать то что должна делать кнопка
-                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < buttons_pos[1][1] + 64:
+                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
+                            buttons_pos[1][1] + 64:
                         pass  # <-->
         render_game(screen, board, entity_board, turt, clock, fps, 0, 0, mouse_pos, buttons_pos, buttons_k)
 
@@ -122,7 +130,9 @@ def start_screen(screen, clock):
     c = 0
     pos = (0, 0)
     buttons_k1, buttons_k2, buttons_k3 = 0, 0, 0
-    buttons_pos = [(128, screen.get_height() // 2 - 128), (128, screen.get_height() // 2), (128, screen.get_height() // 2 + 128)]
+    buttons_pos = [(screen.get_width() // 2 - 80, screen.get_height() // 2 - 128),
+                   (screen.get_width() // 2 - 80, screen.get_height() // 2),
+                   (screen.get_width() // 2 - 80, screen.get_height() // 2 + 128)]
     pygame.mouse.set_visible(False)
     while True:
         clock.tick(30)
@@ -134,11 +144,14 @@ def start_screen(screen, clock):
                 print(screen.get_width(), screen.get_height())
                 if event.button == 1:
                     x1, y1 = event.pos
-                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < buttons_pos[0][1] + 64:
+                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
+                            buttons_pos[0][1] + 64:
                         buttons_k1 = 1
-                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < buttons_pos[1][1] + 64:
+                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
+                            buttons_pos[1][1] + 64:
                         buttons_k2 = 1
-                    if x1 > buttons_pos[2][0] and x1 < buttons_pos[2][0] + 160 and y1 > buttons_pos[2][1] and y1 < buttons_pos[2][1] + 64:
+                    if x1 > buttons_pos[2][0] and x1 < buttons_pos[2][0] + 160 and y1 > buttons_pos[2][1] and y1 < \
+                            buttons_pos[2][1] + 64:
                         buttons_k3 = 1
             else:
                 buttons_k1, buttons_k2, buttons_k3 = 0, 0, 0
@@ -146,11 +159,14 @@ def start_screen(screen, clock):
                 print(screen.get_width(), screen.get_height())
                 if event.button == 1:
                     x1, y1 = event.pos
-                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < buttons_pos[0][1] + 64:
+                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
+                            buttons_pos[0][1] + 64:
                         return
-                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < buttons_pos[1][1] + 64:
+                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
+                            buttons_pos[1][1] + 64:
                         load_game()
-                    if x1 > buttons_pos[2][0] and x1 < buttons_pos[2][0] + 160 and y1 > buttons_pos[2][1] and y1 < buttons_pos[2][1] + 64:
+                    if x1 > buttons_pos[2][0] and x1 < buttons_pos[2][0] + 160 and y1 > buttons_pos[2][1] and y1 < \
+                            buttons_pos[2][1] + 64:
                         pass
             if event.type == pygame.MOUSEMOTION:
                 pos = event.pos
