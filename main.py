@@ -1,5 +1,4 @@
 import time
-
 import pygame
 from map import Map
 from entity_map import EntityMap
@@ -11,6 +10,19 @@ from tree import Tree
 from paporotnik import Paporotnik
 from endurance_crystal import EnduranceCrystal
 from health_crystal import HealthCrystal
+from ash_block import Ash
+from magma_block import Magma
+from water_block import Water
+from brevno import Brevno
+from brevno2 import Brevno_2
+from brevno3 import Brevno_3
+from brevno4 import Brevno_4
+from plot import Plot
+from sharp_stone import SharpStone
+from stick import Stick
+from thread import Thread
+from topor import Topor
+from tree import Tree
 
 
 def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k):
@@ -29,8 +41,87 @@ def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, po
     clock.tick(fps)
 
 
-def load_game():
-    pass
+def load_game(block_board, entity_board, turtl):
+    block_keys = {'#': Ash(), '0': Grass(0), '1': Grass(1),
+                  '2': Grass(2), '3': Grass(3), '4': Grass(4),
+                  '5': Grass(5), '%': Magma(),
+                  '.': Water()}
+    entity_keys = {'.': None, '0': Brevno(), '2': Brevno_2(), '3': Brevno_3(),
+                   '4': Brevno_4(), '#': EnduranceCrystal(), '$': HealthCrystal(),
+                   '%': Paporotnik(), '&': Plot(), '*': SharpStone(), '-': Stick(),
+                   's': Stone(), 'd': Thread(), 'f': Topor(), 'g': Tree(), 'h': turtl}
+    with open("save/save") as save:
+        for y in range(len(block_board.board)):
+            keys = save.readline().rstrip('\n')
+            line = []
+            for x in keys:
+                line.append(block_keys[x])
+            block_board.board[y] = line
+        save.readline()
+        for y in range(len(entity_board.board)):
+            keys = save.readline().rstrip('\n')
+            line = []
+            for j, x in enumerate(keys):
+                if isinstance(entity_keys[x], Turtle):
+                    line.append(None)
+                    turt_cords = (j, y)
+                else:
+                    line.append(entity_keys[x])
+            entity_board.board[y] = line
+        save.readline()
+        turtl.stat["damage"] = int(save.readline().rstrip('\n'))
+        turtl.stat["endurance"] = int(save.readline().rstrip('\n'))
+        turtl.inventory = entity_keys[save.readline().rstrip('\n')]
+        turtl.cords = turt_cords
+        turtl.in_plot = bool(int(save.readline().rstrip('\n')))
+        entity_board.board[turt_cords[1]][turt_cords[0]] = turtl
+
+
+def save_game(block_board, entity_board, turtl):
+    block_keys = {"ash": "#", "ground_0": "0", "ground_1": "1",
+                  "ground_2": "2", "ground_3": "3", "ground_4": "4",
+                  "ground_5": "5", "lava": "%", "lava1": "$",
+                  "water": "."}
+    entity_keys = {None: '.', "brevno": '0', "brevno_2": '2', "brevno_3": '3',
+                   "brevno_4": '4', "endurance_crystal": "#", "health_cristal": '$',
+                   "paporotnic": "%", "plot": "&", "sharp_stone": "*", "stick": '-',
+                   "stone": "s", "thread": "d", "topor": 'f', "tree": 'g',
+                   "master_turtle": 'h'}
+    with open(f"save/save", "w") as save:
+        for y in block_board.board:
+            line = ""
+            for x in y:
+                line += block_keys[x.name]
+            line += '\n'
+            save.write(line)
+        save.write('\n')
+        for y in entity_board.board:
+            line = ""
+            for x in y:
+                if x is None:
+                    line += entity_keys[x]
+                else:
+                    line += entity_keys[x.name]
+
+            line += '\n'
+            save.write(line)
+        save.write('\n')
+        save.write(str(turtl.stat["damage"]))
+        save.write('\n')
+        save.write(str(turtl.stat["endurance"]))
+        save.write('\n')
+        if turtl.inventory is None:
+            save.write(entity_keys[None])
+            save.write('\n')
+        else:
+            save.write(entity_keys[turtl.inventory.name])
+            save.write('\n')
+        if turtl.in_plot:
+            save.write('1')
+            save.write('\n')
+        else:
+            save.write('0')
+            save.write('\n')
 
 
 def main():
@@ -46,12 +137,14 @@ def main():
 
     fps = 30
     clock = pygame.time.Clock()
-    start_screen(screen, clock)
+    start_type = start_screen(screen, clock)
     turt = Turtle(128, 128, board, entity_board)
     running = True
     mouse_pos = (0, 0)
     buttons_pos = [(screen.get_width() // 1.15, 32), (screen.get_width() // 1.15, 128)]
     buttons_k = [0, 0]
+    if start_type == 'load':
+        load_game(board, entity_board, turt)
     pygame.mouse.set_visible(False)
     while running:
         for event in pygame.event.get():
@@ -109,10 +202,8 @@ def main():
                     x1, y1 = event.pos
                     if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
                             buttons_pos[0][1] + 64:
+                        save_game(board, entity_board, turt)
                         return  # <--> сюда писать то что должна делать кнопка
-                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
-                            buttons_pos[1][1] + 64:
-                        pass  # <-->
         render_game(screen, board, entity_board, turt, clock, fps, 0, 0, mouse_pos, buttons_pos, buttons_k)
 
 
@@ -161,10 +252,10 @@ def start_screen(screen, clock):
                     x1, y1 = event.pos
                     if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
                             buttons_pos[0][1] + 64:
-                        return
+                        return 'new'
                     if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
                             buttons_pos[1][1] + 64:
-                        load_game()
+                        return 'load'
                     if x1 > buttons_pos[2][0] and x1 < buttons_pos[2][0] + 160 and y1 > buttons_pos[2][1] and y1 < \
                             buttons_pos[2][1] + 64:
                         pass

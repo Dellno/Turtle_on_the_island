@@ -1,6 +1,6 @@
 from random import randint
 from dirt_block import Grass
-from lava_block import Magma
+from magma_block import Magma
 from ash_block import Ash
 
 
