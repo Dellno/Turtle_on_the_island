@@ -22,6 +22,7 @@ from stick import Stick
 from thread import Thread
 from topor import Topor
 from tree import Tree
+from barier import Barier
 
 
 def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k):
@@ -48,7 +49,7 @@ def load_game(block_board, entity_board, turtl):
     entity_keys = {'.': None, '0': Brevno(), '2': Brevno_2(), '3': Brevno_3(),
                    '4': Brevno_4(), '#': EnduranceCrystal(), '$': HealthCrystal(),
                    '%': Paporotnik(), '&': Plot(), '*': SharpStone(), '-': Stick(),
-                   's': Stone(), 'd': Thread(), 'f': Topor(), 'g': Tree(), 'h': turtl}
+                   's': Stone(), 'd': Thread(), 'f': Topor(), 'g': Tree(), 'h': turtl, '~': Barier()}
     try:
         with open("save/save") as save:
             for y in range(len(block_board.board)):
@@ -88,7 +89,7 @@ def save_game(block_board, entity_board, turtl):
                    "brevno_4": '4', "endurance_crystal": "#", "health_cristal": '$',
                    "paporotnic": "%", "plot": "&", "sharp_stone": "*", "stick": '-',
                    "stone": "s", "thread": "d", "topor": 'f', "tree": 'g',
-                   "master_turtle": 'h'}
+                   "master_turtle": 'h', "barier": '~'}
     with open(f"save/save", "w") as save:
         for y in block_board.board:
             line = ""

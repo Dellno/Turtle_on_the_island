@@ -6,6 +6,7 @@ from stone import Stone
 from sharp_stone import SharpStone
 from map import Map
 from dirt_block import Grass
+from barier import Barier
 
 
 class EntityMap(Map):
@@ -13,6 +14,7 @@ class EntityMap(Map):
         self.width = width
         self.height = height
         self.board = [[None] * width for _ in range(height)]
+        self.generate_barier()
         self.cell_size = 128
         self.screen = screen
 
@@ -29,4 +31,11 @@ class EntityMap(Map):
                 if entity_count >= max_entity:
                     return entity_count
         return entity_count
+
+    def generate_barier(self):
+        for x in range(10, 245):
+            self.board[10][x] = Barier()
+            self.board[245][x] = Barier()
+            self.board[x][10] = Barier()
+            self.board[x][245] = Barier()
 
