@@ -133,7 +133,7 @@ def main():
     entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, min_entity=3, max_entity=6)
     entity_board.generate_entity(140, 128, 20, 20, 10, Tree(), board, Grass, min_entity=10, max_entity=30)
 
-    fps = 60
+    fps = 30
     clock = pygame.time.Clock()
     start_type = start_screen(screen, clock)
     turt = Turtle(128, 128, board, entity_board)
@@ -227,6 +227,7 @@ def start_screen(screen, clock):
     buttons_pos = [(screen.get_width() // 2 - 80, screen.get_height() // 2 - 128),
                    (screen.get_width() // 2 - 80, screen.get_height() // 2),
                    (screen.get_width() // 2 - 80, screen.get_height() // 2 + 128)]
+    kk = False
     pygame.mouse.set_visible(False)
     while True:
         clock.tick(30)
@@ -261,7 +262,7 @@ def start_screen(screen, clock):
                         return 'load'
                     if x1 > buttons_pos[2][0] and x1 < buttons_pos[2][0] + 160 and y1 > buttons_pos[2][1] and y1 < \
                             buttons_pos[2][1] + 64:
-                        pass
+                        kk = not kk
             if event.type == pygame.MOUSEMOTION:
                 pos = event.pos
         if x <= -5000:
@@ -293,6 +294,9 @@ def start_screen(screen, clock):
             screen.blit(pygame.image.load('assets/texture/how_to_play.png'), buttons_pos[2])
         else:
             screen.blit(pygame.image.load('assets/texture/how_to_play_1.png'), buttons_pos[2])
+
+        if kk:
+            screen.blit(pygame.image.load('assets/texture/explanatory_card.png'), (1000, 100))
 
         if pygame.mouse.get_focused():
             screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
