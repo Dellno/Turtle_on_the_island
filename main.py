@@ -124,12 +124,13 @@ def save_game(block_board, entity_board, turtl):
 
 
 def main():
+    game_time = 0
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     board = Map(256, 256, screen)
     entity_board = EntityMap(256, 256, screen)
     entity_board.generate_entity(128, 128, 10, 10, 5, Stone(), board, Grass, min_entity=4, max_entity=8)
-    entity_board.generate_entity(80, 80, 100, 100, 5, EnduranceCrystal(), board, Grass)
-    entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, min_entity=3, max_entity=6)
+    end_crystal = entity_board.generate_entity(1, 1, 254, 254, 1, EnduranceCrystal(), board, Grass, 40, max_entity=80)
+    hp_crystal = entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, min_entity=3, max_entity=10)
     entity_board.generate_entity(140, 128, 20, 20, 10, Paporotnik(), board, Grass, min_entity=10, max_entity=30)
     entity_board.generate_entity(120, 140, 20, 20, 5, Tree(), board, Grass, min_entity=10, max_entity=30)
 
@@ -145,6 +146,12 @@ def main():
         load_game(board, entity_board, turt)
     pygame.mouse.set_visible(False)
     while running:
+        if game_time >= 36000:
+            if end_crystal < 80:
+                entity_board.generate_entity(1, 1, 254, 254, 1, EnduranceCrystal(), board, Grass, 70 - end_crystal, max_entity=70)
+            if hp_crystal < 10:
+                entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, 10 - hp_crystal, max_entity= 10)
+            game_time = 0
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -201,10 +208,10 @@ def main():
                     if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
                             buttons_pos[0][1] + 64:
                         save_game(board, entity_board, turt)
-                        return  # <--> сюда писать то что должна делать кнопка
-
+                        sys.exit(0)
         if turt.stat["damage"] > 0:
             render_game(screen, board, entity_board, turt, clock, fps, 0, 0, mouse_pos, buttons_pos, buttons_k)
+            game_time += 1
         else:
             died_screen(screen)
             main()

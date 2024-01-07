@@ -26,6 +26,7 @@ class EntityMap(Map):
                     if ran == 1 and self.board[y][x] is None and isinstance(block_map.board[y][x], block_type):
                         self.board[y][x] = entity
                         entity_count += 1
-                if entity_count > max_entity:
-                    break
+                if entity_count >= max_entity:
+                    return entity_count
+        return entity_count
 

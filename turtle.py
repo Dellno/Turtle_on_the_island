@@ -23,6 +23,7 @@ from health_crystal import HealthCrystal
 from endurance_crystal import EnduranceCrystal
 from topor import Topor
 
+
 class Turtle:
     def __init__(self, spawn_x, spawn_y, block_map, entity_map):
         self.stat = {"damage": 3, "endurance": 9, "max_damage": 3, "max_endurance": 9}
@@ -55,6 +56,7 @@ class Turtle:
         if not i_spawn:
             block_map.board[spawn_y][spawn_x] = Grass(0)
             entity_map.board[spawn_y][spawn_x] = self
+
     def render(self, x, y, screen):
         if isinstance(self.block_map.board[self.cords[1]][self.cords[0]], Water) and not self.in_plot:
             if self.anim_step != 0:
@@ -101,6 +103,8 @@ class Turtle:
             block_event = self.block_map.board[y][x].block_event()
             if not (block_event is None):
                 self.stat[block_event[0]] += block_event[1]
+                if self.stat["endurance"] < 0:
+                    self.stat["damage"] += -1
         if not isinstance(self.entity_map.board[self.cords[1]][self.cords[0]], Plot):
             self.entity_map.board[self.cords[1]][self.cords[0]] = None
         self.entity_map.board[y][x] = self
@@ -150,13 +154,11 @@ class Turtle:
                         and self.stat["endurance"] < self.stat["max_endurance"]):
                     self.stat["endurance"] += 1
                 elif (name_data[CRAFTS_MAP[(element_0, element_1)][2]].name == "health_cristal"
-                        and self.stat["damage"] < self.stat["max_damage"]):
+                      and self.stat["damage"] < self.stat["max_damage"]):
                     self.stat["damage"] += 1
                 print(self.stat)
-
 
     def object_is_real(self, object):
         if not object is None:
             return object.name
         return None
-
