@@ -125,13 +125,13 @@ def save_game(block_board, entity_board, turtl):
 
 def main():
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-    print(screen.get_width(), screen.get_height())
     board = Map(256, 256, screen)
     entity_board = EntityMap(256, 256, screen)
     entity_board.generate_entity(128, 128, 10, 10, 5, Stone(), board, Grass, min_entity=4, max_entity=8)
     entity_board.generate_entity(80, 80, 100, 100, 5, EnduranceCrystal(), board, Grass)
     entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, min_entity=3, max_entity=6)
-    entity_board.generate_entity(140, 128, 20, 20, 10, Tree(), board, Grass, min_entity=10, max_entity=30)
+    entity_board.generate_entity(140, 128, 20, 20, 10, Paporotnik(), board, Grass, min_entity=10, max_entity=30)
+    entity_board.generate_entity(120, 140, 20, 20, 5, Tree(), board, Grass, min_entity=10, max_entity=30)
 
     fps = 60
     clock = pygame.time.Clock()

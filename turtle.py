@@ -80,8 +80,6 @@ class Turtle:
         if self.stat['endurance'] > 0:
             for i in range(self.stat['endurance']):
                 screen.blit(self.end, (48 * i, 0))
-        else:
-            self.stat["damage"] += -1
 
     def is_correct_move(self, x, y):
         if (((self.cords[0] != x) ^ (self.cords[1] != y)) and
@@ -99,13 +97,10 @@ class Turtle:
         return False
 
     def move(self, x, y):
-        print(x, y)
         if not self.in_plot:
             block_event = self.block_map.board[y][x].block_event()
             if not (block_event is None):
                 self.stat[block_event[0]] += block_event[1]
-                print(self.stat)
-            # print(self.stat)
         if not isinstance(self.entity_map.board[self.cords[1]][self.cords[0]], Plot):
             self.entity_map.board[self.cords[1]][self.cords[0]] = None
         self.entity_map.board[y][x] = self
