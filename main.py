@@ -49,31 +49,34 @@ def load_game(block_board, entity_board, turtl):
                    '4': Brevno_4(), '#': EnduranceCrystal(), '$': HealthCrystal(),
                    '%': Paporotnik(), '&': Plot(), '*': SharpStone(), '-': Stick(),
                    's': Stone(), 'd': Thread(), 'f': Topor(), 'g': Tree(), 'h': turtl}
-    with open("save/save") as save:
-        for y in range(len(block_board.board)):
-            keys = save.readline().rstrip('\n')
-            line = []
-            for x in keys:
-                line.append(block_keys[x])
-            block_board.board[y] = line
-        save.readline()
-        for y in range(len(entity_board.board)):
-            keys = save.readline().rstrip('\n')
-            line = []
-            for j, x in enumerate(keys):
-                if isinstance(entity_keys[x], Turtle):
-                    line.append(None)
-                    turt_cords = (j, y)
-                else:
-                    line.append(entity_keys[x])
-            entity_board.board[y] = line
-        save.readline()
-        turtl.stat["damage"] = int(save.readline().rstrip('\n'))
-        turtl.stat["endurance"] = int(save.readline().rstrip('\n'))
-        turtl.inventory = entity_keys[save.readline().rstrip('\n')]
-        turtl.cords = turt_cords
-        turtl.in_plot = bool(int(save.readline().rstrip('\n')))
-        entity_board.board[turt_cords[1]][turt_cords[0]] = turtl
+    try:
+        with open("save/save") as save:
+            for y in range(len(block_board.board)):
+                keys = save.readline().rstrip('\n')
+                line = []
+                for x in keys:
+                    line.append(block_keys[x])
+                block_board.board[y] = line
+            save.readline()
+            for y in range(len(entity_board.board)):
+                keys = save.readline().rstrip('\n')
+                line = []
+                for j, x in enumerate(keys):
+                    if isinstance(entity_keys[x], Turtle):
+                        line.append(None)
+                        turt_cords = (j, y)
+                    else:
+                        line.append(entity_keys[x])
+                entity_board.board[y] = line
+            save.readline()
+            turtl.stat["damage"] = int(save.readline().rstrip('\n'))
+            turtl.stat["endurance"] = int(save.readline().rstrip('\n'))
+            turtl.inventory = entity_keys[save.readline().rstrip('\n')]
+            turtl.cords = turt_cords
+            turtl.in_plot = bool(int(save.readline().rstrip('\n')))
+            entity_board.board[turt_cords[1]][turt_cords[0]] = turtl
+    except FileNotFoundError:
+        pass
 
 
 def save_game(block_board, entity_board, turtl):
@@ -303,7 +306,7 @@ def start_screen(screen, clock):
             screen.blit(pygame.image.load('assets/texture/how_to_play_1.png'), buttons_pos[2])
 
         if kk:
-            screen.blit(pygame.image.load('assets/texture/explanatory_card.png'), (1000, 100))
+            screen.blit(pygame.image.load('assets/texture/explanatory_card.png'), (screen.get_width() - 510, (screen.get_height() - 700) // 2))
 
         if pygame.mouse.get_focused():
             screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
