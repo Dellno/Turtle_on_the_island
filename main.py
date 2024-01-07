@@ -6,7 +6,6 @@ import sys
 from turtle import Turtle
 from stone import Stone
 from dirt_block import Grass
-from tree import Tree
 from paporotnik import Paporotnik
 from endurance_crystal import EnduranceCrystal
 from health_crystal import HealthCrystal
