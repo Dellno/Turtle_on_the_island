@@ -51,8 +51,9 @@ def load_game(block_board, entity_board, turtl):
     entity_keys = {'.': None, '0': Brevno(), '2': Brevno_2(), '3': Brevno_3(),
                    '4': Brevno_4(), '#': EnduranceCrystal(), '$': HealthCrystal(),
                    '%': Paporotnik(), '&': Plot(), '*': SharpStone(), '-': Stick(),
-                   's': Stone(), 'd': Thread(), 'f': Topor(), 'g': Tree(), 'h': turtl}
-    if os.path.isfile('save'):
+                   's': Stone(), 'd': Thread(), 'f': Topor(), 'g': Tree(), 'h': turtl,
+                   "~": Barier()}
+    if os.path.isfile('save/save'):
         with open("save/save") as save:
             for y in range(len(block_board.board)):
                 keys = save.readline().rstrip('\n')
@@ -127,16 +128,166 @@ def save_game(block_board, entity_board, turtl):
             save.write('\n')
 
 
+def start_screen(screen, clock):
+    fon = pygame.transform.scale(pygame.image.load('assets/texture/fon.png'), (5000, screen.get_height()))
+    plot_img = pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot.png'), 270)
+    turtle_anim = [pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_' + str(i) + '.png'),
+                                           270) for i in range(1, 9)]
+    plot_anim = [pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot_' + str(i) + '.png'),
+                                         270) for i in range(1, 3)]
+    turt = pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_1.png'), 270)
+
+    v = -2
+    x, y = 0, 0
+    c = 0
+    pos = (0, 0)
+    buttons_k1, buttons_k2, buttons_k3 = 0, 0, 0
+    buttons_pos = [(screen.get_width() // 2 - 80, screen.get_height() // 2 - 128),
+                   (screen.get_width() // 2 - 80, screen.get_height() // 2),
+                   (screen.get_width() // 2 - 80, screen.get_height() // 2 + 128)]
+    kk = False
+    pygame.mouse.set_visible(False)
+    while True:
+        clock.tick(30)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+
+                if event.button == 1:
+                    x1, y1 = event.pos
+                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
+                            buttons_pos[0][1] + 64:
+                        buttons_k1 = 1
+                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
+                            buttons_pos[1][1] + 64:
+                        buttons_k2 = 1
+                    if x1 > buttons_pos[2][0] and x1 < buttons_pos[2][0] + 160 and y1 > buttons_pos[2][1] and y1 < \
+                            buttons_pos[2][1] + 64:
+                        buttons_k3 = 1
+            else:
+                buttons_k1, buttons_k2, buttons_k3 = 0, 0, 0
+            if event.type == pygame.MOUSEBUTTONUP:
+                print(screen.get_width(), screen.get_height())
+                if event.button == 1:
+                    x1, y1 = event.pos
+                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
+                            buttons_pos[0][1] + 64:
+                        return 'new'
+                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
+                            buttons_pos[1][1] + 64:
+                        return 'load'
+                    if x1 > buttons_pos[2][0] and x1 < buttons_pos[2][0] + 160 and y1 > buttons_pos[2][1] and y1 < \
+                            buttons_pos[2][1] + 64:
+                        kk = not kk
+            if event.type == pygame.MOUSEMOTION:
+                pos = event.pos
+        if x <= -5000:
+            x = 0
+        x += v
+        if c == 30:
+            c = 0
+        c += 1
+        screen.blit(fon, (x, y))
+        screen.blit(fon, (x + 5000, y))
+
+        if x in range(-2670, -800):
+            screen.blit(plot_anim[int((c % 7) // 4)], (280, screen.get_height() // 2))
+            screen.blit(turt, (300, screen.get_height() // 2))
+        else:
+            screen.blit(plot_img, (x + 1100, screen.get_height() // 2))
+            screen.blit(turtle_anim[int(c // 3.8)], (300, screen.get_height() // 2))
+        if buttons_k1 == 0:
+            screen.blit(pygame.image.load('assets/texture/new_game.png'), buttons_pos[0])
+        else:
+            screen.blit(pygame.image.load('assets/texture/new_game_1.png'), buttons_pos[0])
+
+        if buttons_k2 == 0:
+            screen.blit(pygame.image.load('assets/texture/load_game_1.png'), buttons_pos[1])
+        else:
+            screen.blit(pygame.image.load('assets/texture/load_game.png'), buttons_pos[1])
+
+        if buttons_k3 == 0:
+            screen.blit(pygame.image.load('assets/texture/how_to_play.png'), buttons_pos[2])
+        else:
+            screen.blit(pygame.image.load('assets/texture/how_to_play_1.png'), buttons_pos[2])
+
+        if kk:
+            screen.blit(pygame.image.load('assets/texture/explanatory_card.png'),
+                        (screen.get_width() - 510, (screen.get_height() - 700) // 2))
+
+        if pygame.mouse.get_focused():
+            screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
+        pygame.display.flip()
+
+
+def died_screen(screen):
+    fon = pygame.image.load('assets/texture/died.png')
+    buttons_k1, buttons_k2 = 0, 0
+    buttons_pos = [(screen.get_width() // 4, screen.get_height() // 1.5),
+                   (screen.get_width() // 1.7, screen.get_height() // 1.5), ]
+    pygame.mouse.set_visible(False)
+    mouse_pos = (0, 0)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEMOTION:
+                mouse_pos = event.pos
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                print(screen.get_width(), screen.get_height())
+                if event.button == 1:
+                    x1, y1 = event.pos
+                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
+                            buttons_pos[0][1] + 64:
+                        buttons_k1 = 1
+                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
+                            buttons_pos[1][1] + 64:
+                        buttons_k2 = 1
+            else:
+                buttons_k1, buttons_k2 = 0, 0
+            if event.type == pygame.MOUSEBUTTONUP:
+                print(screen.get_width(), screen.get_height())
+                if event.button == 1:
+                    x1, y1 = event.pos
+                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
+                            buttons_pos[0][1] + 64:
+                        return 'new'
+                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
+                            buttons_pos[1][1] + 64:
+                        return 'load'
+        screen.fill((0, 0, 0))
+        screen.blit(fon, (screen.get_width() // 7, screen.get_height() // 3))
+        if buttons_k1 == 0:
+            screen.blit(pygame.image.load('assets/texture/new_game.png'), buttons_pos[0])
+        else:
+            screen.blit(pygame.image.load('assets/texture/new_game_1.png'), buttons_pos[0])
+
+        if buttons_k2 == 0:
+            screen.blit(pygame.image.load('assets/texture/load_game_1.png'), buttons_pos[1])
+        else:
+            screen.blit(pygame.image.load('assets/texture/load_game.png'), buttons_pos[1])
+        screen.blit(pygame.image.load('assets/texture/arrow.png'), mouse_pos)
+        pygame.display.flip()
+
+
 def main():
     game_time = 0
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     board = Map(256, 256, screen)
     entity_board = EntityMap(256, 256, screen)
-    entity_board.generate_entity(128, 128, 10, 10, 5, Stone(), board, Grass, min_entity=4, max_entity=8)
-    end_crystal = entity_board.generate_entity(1, 1, 254, 254, 1, EnduranceCrystal(), board, Grass, 40, max_entity=80)
-    hp_crystal = entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, min_entity=3, max_entity=10)
-    entity_board.generate_entity(140, 128, 20, 20, 10, Paporotnik(), board, Grass, min_entity=10, max_entity=30)
-    entity_board.generate_entity(120, 140, 20, 20, 5, Tree(), board, Grass, min_entity=10, max_entity=30)
+    entity_board.generate_entity(128, 128, 10, 10, 5, Stone(),
+                                 board, Grass, min_entity=4, max_entity=8)
+    end_crystal = entity_board.generate_entity(1, 1, 254, 254, 1,
+                                               EnduranceCrystal(), board, Grass, 40, max_entity=80)
+    hp_crystal = entity_board.generate_entity(80, 80, 100, 100, 1,
+                                              HealthCrystal(), board, Grass, min_entity=3, max_entity=10)
+    entity_board.generate_entity(140, 128, 20, 20, 10,
+                                 Paporotnik(), board, Grass, min_entity=10, max_entity=30)
+    entity_board.generate_entity(120, 140, 20, 20, 5, Tree(),
+                                 board, Grass, min_entity=10, max_entity=30)
 
     fps = 30
     clock = pygame.time.Clock()
@@ -152,9 +303,11 @@ def main():
     while running:
         if game_time >= 36000:
             if end_crystal < 80:
-                entity_board.generate_entity(1, 1, 254, 254, 1, EnduranceCrystal(), board, Grass, 70 - end_crystal, max_entity=70)
+                entity_board.generate_entity(1, 1, 254, 254, 1, EnduranceCrystal(), board, Grass, 70 - end_crystal,
+                                             max_entity=70)
             if hp_crystal < 10:
-                entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, 10 - hp_crystal, max_entity= 10)
+                entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, 10 - hp_crystal,
+                                             max_entity=10)
             game_time = 0
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -219,150 +372,6 @@ def main():
         else:
             died_screen(screen)
             main()
-
-
-def start_screen(screen, clock):
-    fon = pygame.transform.scale(pygame.image.load('assets/texture/fon.png'), (5000, screen.get_height()))
-    plot_img = pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot.png'), 270)
-    turtle_anim = [pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_' + str(i) + '.png'),
-                                           270) for i in range(1, 9)]
-    plot_anim = [pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot_' + str(i) + '.png'),
-                                         270) for i in range(1, 3)]
-    turt = pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_1.png'), 270)
-
-    v = -2
-    x, y = 0, 0
-    c = 0
-    pos = (0, 0)
-    buttons_k1, buttons_k2, buttons_k3 = 0, 0, 0
-    buttons_pos = [(screen.get_width() // 2 - 80, screen.get_height() // 2 - 128),
-                   (screen.get_width() // 2 - 80, screen.get_height() // 2),
-                   (screen.get_width() // 2 - 80, screen.get_height() // 2 + 128)]
-    kk = False
-    pygame.mouse.set_visible(False)
-    while True:
-        clock.tick(30)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                print(screen.get_width(), screen.get_height())
-                if event.button == 1:
-                    x1, y1 = event.pos
-                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
-                            buttons_pos[0][1] + 64:
-                        buttons_k1 = 1
-                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
-                            buttons_pos[1][1] + 64:
-                        buttons_k2 = 1
-                    if x1 > buttons_pos[2][0] and x1 < buttons_pos[2][0] + 160 and y1 > buttons_pos[2][1] and y1 < \
-                            buttons_pos[2][1] + 64:
-                        buttons_k3 = 1
-            else:
-                buttons_k1, buttons_k2, buttons_k3 = 0, 0, 0
-            if event.type == pygame.MOUSEBUTTONUP:
-                print(screen.get_width(), screen.get_height())
-                if event.button == 1:
-                    x1, y1 = event.pos
-                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
-                            buttons_pos[0][1] + 64:
-                        return 'new'
-                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
-                            buttons_pos[1][1] + 64:
-                        return 'load'
-                    if x1 > buttons_pos[2][0] and x1 < buttons_pos[2][0] + 160 and y1 > buttons_pos[2][1] and y1 < \
-                            buttons_pos[2][1] + 64:
-                        kk = not kk
-            if event.type == pygame.MOUSEMOTION:
-                pos = event.pos
-        if x <= -5000:
-            x = 0
-        x += v
-        if c == 30:
-            c = 0
-        c += 1
-        screen.blit(fon, (x, y))
-        screen.blit(fon, (x + 5000, y))
-
-        if x in range(-2670, -800):
-            screen.blit(plot_anim[int((c % 7) // 4)], (280, screen.get_height() // 2))
-            screen.blit(turt, (300, screen.get_height() // 2))
-        else:
-            screen.blit(plot_img, (x + 1100, screen.get_height() // 2))
-            screen.blit(turtle_anim[int(c // 3.8)], (300, screen.get_height() // 2))
-        if buttons_k1 == 0:
-            screen.blit(pygame.image.load('assets/texture/new_game.png'), buttons_pos[0])
-        else:
-            screen.blit(pygame.image.load('assets/texture/new_game_1.png'), buttons_pos[0])
-
-        if buttons_k2 == 0:
-            screen.blit(pygame.image.load('assets/texture/load_game_1.png'), buttons_pos[1])
-        else:
-            screen.blit(pygame.image.load('assets/texture/load_game.png'), buttons_pos[1])
-
-        if buttons_k3 == 0:
-            screen.blit(pygame.image.load('assets/texture/how_to_play.png'), buttons_pos[2])
-        else:
-            screen.blit(pygame.image.load('assets/texture/how_to_play_1.png'), buttons_pos[2])
-
-        if kk:
-            screen.blit(pygame.image.load('assets/texture/explanatory_card.png'), (screen.get_width() - 510, (screen.get_height() - 700) // 2))
-
-        if pygame.mouse.get_focused():
-            screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
-        pygame.display.flip()
-
-
-def died_screen(screen):
-    fon = pygame.image.load('assets/texture/died.png')
-    buttons_k1, buttons_k2 = 0, 0
-    buttons_pos = [(screen.get_width() // 4, screen.get_height() // 1.5),
-                   (screen.get_width() // 1.7, screen.get_height() // 1.5), ]
-    pygame.mouse.set_visible(False)
-    mouse_pos = (0, 0)
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEMOTION:
-                mouse_pos = event.pos
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                print(screen.get_width(), screen.get_height())
-                if event.button == 1:
-                    x1, y1 = event.pos
-                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
-                            buttons_pos[0][1] + 64:
-                        buttons_k1 = 1
-                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
-                            buttons_pos[1][1] + 64:
-                        buttons_k2 = 1
-            else:
-                buttons_k1, buttons_k2 = 0, 0
-            if event.type == pygame.MOUSEBUTTONUP:
-                print(screen.get_width(), screen.get_height())
-                if event.button == 1:
-                    x1, y1 = event.pos
-                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
-                            buttons_pos[0][1] + 64:
-                        return 'new'
-                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
-                            buttons_pos[1][1] + 64:
-                        return 'load'
-        screen.fill((0, 0, 0))
-        screen.blit(fon, (screen.get_width() // 7, screen.get_height() // 3))
-        if buttons_k1 == 0:
-            screen.blit(pygame.image.load('assets/texture/new_game.png'), buttons_pos[0])
-        else:
-            screen.blit(pygame.image.load('assets/texture/new_game_1.png'), buttons_pos[0])
-
-        if buttons_k2 == 0:
-            screen.blit(pygame.image.load('assets/texture/load_game_1.png'), buttons_pos[1])
-        else:
-            screen.blit(pygame.image.load('assets/texture/load_game.png'), buttons_pos[1])
-        screen.blit(pygame.image.load('assets/texture/arrow.png'), mouse_pos)
-        pygame.display.flip()
 
 
 if __name__ == '__main__':
