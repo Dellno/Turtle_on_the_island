@@ -202,7 +202,12 @@ def main():
                             buttons_pos[0][1] + 64:
                         save_game(board, entity_board, turt)
                         return  # <--> сюда писать то что должна делать кнопка
-        render_game(screen, board, entity_board, turt, clock, fps, 0, 0, mouse_pos, buttons_pos, buttons_k)
+
+        if turt.stat["damage"] > 0:
+            render_game(screen, board, entity_board, turt, clock, fps, 0, 0, mouse_pos, buttons_pos, buttons_k)
+        else:
+            died_screen(screen)
+            main()
 
 
 def start_screen(screen, clock):
@@ -298,8 +303,9 @@ def died_screen(screen):
     fon = pygame.image.load('assets/texture/died.png')
     buttons_k1, buttons_k2 = 0, 0
     buttons_pos = [(screen.get_width() // 4, screen.get_height() // 1.5),
-                   (screen.get_width() // 1.7, screen.get_height() // 1.5),]
+                   (screen.get_width() // 1.7, screen.get_height() // 1.5), ]
     pygame.mouse.set_visible(False)
+    mouse_pos = (0, 0)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
