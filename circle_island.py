@@ -23,9 +23,9 @@ class CircleIsland:
         delta = 1 - 2 * R
         error = 0
 
-        num2 = randint(1, R // 5)# если количество кругов от 5 до 9(R) то рандом не получается
-        num3 = randint(1, R // 5)#это происходит т.к. текстур 5 и чтобы не было багов
-        num4 = randint(1, R // 5)#чет с комментами плохо у меня и названия я с переводчиком делал(переменных)
+        num2 = randint(1, R // 5)  # если количество кругов от 5 до 9(R) то рандом не получается
+        num3 = randint(1, R // 5)  # это происходит т.к. текстур 5 и чтобы не было багов
+        num4 = randint(1, R // 5)  # чет с комментами плохо у меня и названия я с переводчиком делал(переменных)
         num5 = randint(1, R // 5)
         num1 = R - (num5 + num2 + num3 + num4)
         num5 = num5 + 1
@@ -53,22 +53,22 @@ class CircleIsland:
                 self.island_block = island_block[:]
                 while y >= x:
                     t += 1
-                    self.map.board[per + x + self.x][per + y + self.y] = self.island_block[0]
-                    self.map.board[per + x + self.x][per + y + self.y - 1] = self.island_block[0]
-                    self.map.board[per + x + self.x][per - y + self.y] = self.island_block[0]
-                    self.map.board[per + x + self.x][per - y + self.y + 1] = self.island_block[0]
-                    self.map.board[per - x + self.x][per + y + self.y] = self.island_block[0]
-                    self.map.board[per - x + self.x][per + y + self.y - 1] = self.island_block[0]
-                    self.map.board[per - x + self.x][per - y + self.y] = self.island_block[0]
-                    self.map.board[per - x + self.x][per - y + self.y + 1] = self.island_block[0]
-                    self.map.board[per + y + self.x][per + x + self.y] = self.island_block[0]
-                    self.map.board[per + y + self.x - 1][per + x + self.y] = self.island_block[0]
-                    self.map.board[per + y + self.x][per - x + self.y] = self.island_block[0]
-                    self.map.board[per + y + self.x - 1][per - x + self.y] = self.island_block[0]
-                    self.map.board[per - y + self.x][per + x + self.y] = self.island_block[0]
-                    self.map.board[per - y + self.x + 1][per + x + self.y] = self.island_block[0]
-                    self.map.board[per - y + self.x][per - x + self.y] = self.island_block[0]
-                    self.map.board[per - y + self.x + 1][per - x + self.y] = self.island_block[0]
+                    self.map.board[per + y + self.y][per + x + self.x] = self.island_block[0]
+                    self.map.board[per + y + self.y][per + x + self.x - 1] = self.island_block[0]
+                    self.map.board[per + y + self.y][per - x + self.x] = self.island_block[0]
+                    self.map.board[per + y + self.y][per - x + self.x + 1] = self.island_block[0]
+                    self.map.board[per - y + self.y][per + x + self.x] = self.island_block[0]
+                    self.map.board[per - y + self.y][per + x + self.x - 1] = self.island_block[0]
+                    self.map.board[per - y + self.y][per - x + self.x] = self.island_block[0]
+                    self.map.board[per - y + self.y][per - x + self.x + 1] = self.island_block[0]
+                    self.map.board[per + x + self.y][per + y + self.x] = self.island_block[0]
+                    self.map.board[per + x + self.y - 1][per + y + self.x] = self.island_block[0]
+                    self.map.board[per + x + self.y][per - y + self.x] = self.island_block[0]
+                    self.map.board[per + x + self.y - 1][per - y + self.x] = self.island_block[0]
+                    self.map.board[per - x + self.y][per + y + self.x] = self.island_block[0]
+                    self.map.board[per - x + self.y + 1][per + y + self.x] = self.island_block[0]
+                    self.map.board[per - x + self.y][per - y + self.x] = self.island_block[0]
+                    self.map.board[per - x + self.y + 1][per - y + self.x] = self.island_block[0]
 
                     error = 2 * (delta + y) - 1
 

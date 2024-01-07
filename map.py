@@ -13,7 +13,10 @@ class Map:
         self.height = height
         self.board = [[Water()] * width for _ in range(height)]
         Island(128, 128, 10, 10, self)
-        CircleIsland(150, 150, 10, self)#10 - это кол-во кругов то есть ширина и длина 20
+        CircleIsland(180, 180, 10, self)
+        Island(140, 128, 20, 20, self, (Grass(2), Grass(4)))
+
+        # 10 - это кол-во кругов то есть ширина и длина 20
         self.cell_size = 128
         self.screen = screen
         self.left = 0

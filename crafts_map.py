@@ -12,5 +12,6 @@ CRAFTS_MAP = {
     (None, 'brevno_3'): ('brevno', 'brevno_2', None),
     (None, 'brevno_4'): ('brevno', 'brevno_3', None),
     (None, "endurance_crystal"): (None, None, "endurance_crystal"),
-    (None, "health_cristal"): (None, None, "health_cristal")
+    (None, "health_cristal"): (None, None, "health_cristal"),
+    ('stick', "sharp_stone"): ('topor', None, None)
 }

@@ -21,6 +21,7 @@ from brevno4 import Brevno_4
 from plot import Plot
 from health_crystal import HealthCrystal
 from endurance_crystal import EnduranceCrystal
+from topor import Topor
 
 class Turtle:
     def __init__(self, spawn_x, spawn_y, block_map, entity_map):
@@ -29,8 +30,10 @@ class Turtle:
         self.entity_map = entity_map
         self.block_map = block_map
         self.cords = (spawn_x, spawn_y)
+        self.static_anim = 0
         self.anim = [[pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_' + str(i) + '.png'),
-                                              j) for i in range(1, 17)] for j in [0, 270, 180, 90]]
+                                              j) for i in range(1, 19)] for j in [0, 270, 180, 90]]
+
         self.inventory = None
         self.max_hardness = 0
         self.rotate = 0
@@ -52,10 +55,15 @@ class Turtle:
         if not i_spawn:
             block_map.board[spawn_y][spawn_x] = Grass(0)
             entity_map.board[spawn_y][spawn_x] = self
-
     def render(self, x, y, screen):
         if isinstance(self.block_map.board[self.cords[1]][self.cords[0]], Water) and not self.in_plot:
-            screen.blit(self.anim[self.rotate][self.anim_step + 8], (x, y))
+            if self.anim_step != 0:
+                screen.blit(self.anim[self.rotate][self.anim_step + 8], (x, y))
+            else:
+                screen.blit(self.anim[self.rotate][16 + round(self.static_anim // 30) % 2], (x, y))
+                self.static_anim += 1
+                if self.static_anim > 60:
+                    self.static_anim = 0
         elif not self.in_plot:
             screen.blit(self.anim[self.rotate][self.anim_step], (x, y))
         else:
@@ -72,6 +80,8 @@ class Turtle:
         if self.stat['endurance'] > 0:
             for i in range(self.stat['endurance']):
                 screen.blit(self.end, (48 * i, 0))
+        else:
+            self.stat["damage"] += -1
 
     def is_correct_move(self, x, y):
         if (((self.cords[0] != x) ^ (self.cords[1] != y)) and
@@ -127,7 +137,7 @@ class Turtle:
         name_data = {"stone": Stone(), "sharp_stone": SharpStone(), None: None, "brevno": Brevno(),
                      "paporotnic": Paporotnik(), "thread": Thread(), "stick": Stick(), "tree": Tree(),
                      "brevno_2": Brevno_2(), "brevno_3": Brevno_3(), "brevno_4": Brevno_4(), "plot": Plot(),
-                     "health_cristal": HealthCrystal(), "endurance_crystal": EnduranceCrystal()
+                     "health_cristal": HealthCrystal(), "endurance_crystal": EnduranceCrystal(), "topor": Topor()
                      }
         element_0 = self.object_is_real(self.inventory)
         element_1 = self.object_is_real(self.entity_map.board[y][x])
