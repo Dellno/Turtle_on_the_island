@@ -1,3 +1,4 @@
+import os.path
 import time
 import pygame
 from map import Map
@@ -29,13 +30,14 @@ def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, po
     screen.fill((0, 0, 0))
     board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
     entity_board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
+    if pygame.mouse.get_focused() and pix_x == 0 and pix_y == 0:
+        x, y = pos[0] // 128, pos[1] // 128
+        pygame.draw.rect(screen, (255, 255, 255), (x * 128, y * 128, 128, 128), 3)
     if buttons_k[0] == 0:
         screen.blit(pygame.image.load('assets/texture/save.png'), buttons_pos[0])
     else:
         screen.blit(pygame.image.load('assets/texture/save_1.png'), buttons_pos[0])
     if pygame.mouse.get_focused() and pix_x == 0 and pix_y == 0:
-        x, y = pos[0] // 128, pos[1] // 128
-        pygame.draw.rect(screen, (255, 255, 255), (x * 128, y * 128, 128, 128), 3)
         screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
     pygame.display.flip()
     clock.tick(fps)
@@ -49,8 +51,8 @@ def load_game(block_board, entity_board, turtl):
     entity_keys = {'.': None, '0': Brevno(), '2': Brevno_2(), '3': Brevno_3(),
                    '4': Brevno_4(), '#': EnduranceCrystal(), '$': HealthCrystal(),
                    '%': Paporotnik(), '&': Plot(), '*': SharpStone(), '-': Stick(),
-                   's': Stone(), 'd': Thread(), 'f': Topor(), 'g': Tree(), 'h': turtl, '~': Barier()}
-    try:
+                   's': Stone(), 'd': Thread(), 'f': Topor(), 'g': Tree(), 'h': turtl}
+    if os.path.isfile('save'):
         with open("save/save") as save:
             for y in range(len(block_board.board)):
                 keys = save.readline().rstrip('\n')
@@ -76,8 +78,6 @@ def load_game(block_board, entity_board, turtl):
             turtl.cords = turt_cords
             turtl.in_plot = bool(int(save.readline().rstrip('\n')))
             entity_board.board[turt_cords[1]][turt_cords[0]] = turtl
-    except FileNotFoundError:
-        pass
 
 
 def save_game(block_board, entity_board, turtl):
