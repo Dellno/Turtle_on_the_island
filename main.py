@@ -152,6 +152,62 @@ def save_game(block_board, entity_board, turtl):
         save.write('\n')
 
 
+def final_screen(screen, clock):
+    fon = pygame.transform.scale(pygame.image.load('assets/texture/final_fon.png'), (screen.get_width() + 300, screen.get_height()))
+    ship_im = [pygame.image.load('assets/texture/ship_1.png'), pygame.image.load('assets/texture/ship_2.png')]
+    buttons_pos = [(screen.get_width() // 1.15, 32), (screen.get_width() // 1.15, 128)]
+    buttons_k = 0
+    pygame.mouse.set_visible(False)
+    v = 2
+    x, y = 0, 0
+    pos = (0, 0)
+    c = 0
+    while True:
+        if c == 30:
+            c = 0
+        c += 1
+        pygame.display.flip()
+        x += v
+        clock.tick(30)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    x1, y1 = event.pos
+                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
+                            buttons_pos[0][1] + 64:
+                        buttons_k = 1
+            else:
+                buttons_k = 0
+            if event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    x1, y1 = event.pos
+                    if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
+                            buttons_pos[0][1] + 64:
+                        pygame.quit()
+                        sys.exit()
+            if event.type == pygame.MOUSEMOTION:
+                pos = event.pos
+        if x >= screen.get_width() + 300:
+            x = 0
+        screen.blit(fon, (x - screen.get_width() - 300, y))
+        screen.blit(fon, (x, y))
+
+        screen.blit(ship_im[int((c % 7) // 4)], (400, screen.get_height() // 2 - 210))
+
+        if buttons_k == 0:
+            screen.blit(pygame.image.load('assets/texture/exit_f.png'), buttons_pos[0])
+        else:
+            screen.blit(pygame.image.load('assets/texture/exit_f2.png'), buttons_pos[0])
+
+        if pygame.mouse.get_focused():
+            screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
+
+
+
+
 def start_screen(screen, clock):
     fon = pygame.transform.scale(pygame.image.load('assets/texture/fon.png'), (5000, screen.get_height()))
     plot_img = pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot.png'), 270)
@@ -178,7 +234,6 @@ def start_screen(screen, clock):
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                print(screen.get_width(), screen.get_height())
                 if event.button == 1:
                     x1, y1 = event.pos
                     if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
@@ -193,7 +248,6 @@ def start_screen(screen, clock):
             else:
                 buttons_k1, buttons_k2, buttons_k3 = 0, 0, 0
             if event.type == pygame.MOUSEBUTTONUP:
-                print(screen.get_width(), screen.get_height())
                 if event.button == 1:
                     x1, y1 = event.pos
                     if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
@@ -328,7 +382,7 @@ def main():
                                              max_entity=10)
             game_time = 0
         if turt.stat['fixed_ship'] >= turt.stat['max_fixed_ship']:
-            pass # тут написать функцию для завершения игры
+            final_screen(screen, clock)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -391,7 +445,7 @@ def main():
                         buttons_k, machta_ren)
             game_time += 1
         else:
-            died_screen(screen)
+            died_screen(screen, clock)
             main()
 
 
