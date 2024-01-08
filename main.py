@@ -54,8 +54,9 @@ def load_game(block_board, entity_board, turtl):
     entity_keys = {'.': None, '0': Brevno(), '2': Brevno_2(), '3': Brevno_3(),
                    '4': Brevno_4(), '#': EnduranceCrystal(), '$': HealthCrystal(),
                    '%': Paporotnik(), '&': Plot(), '*': SharpStone(), '-': Stick(),
-                   's': Stone(), 'd': Thread(), 'f': Topor(), 'g': Tree(), 'h': turtl}
-    if os.path.isfile('save'):
+                   's': Stone(), 'd': Thread(), 'f': Topor(), 'g': Tree(), 'h': turtl,
+                   '~': Barier()}
+    if os.path.isfile('save/save'):
         with open("save/save") as save:
             for y in range(len(block_board.board)):
                 keys = save.readline().rstrip('\n')
