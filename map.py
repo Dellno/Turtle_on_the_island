@@ -14,6 +14,8 @@ class Map:
         self.board = [[Water()] * width for _ in range(height)]
         Island(128, 128, 10, 10, self)
         Island(140, 128, 20, 20, self, (Grass(2), Grass(4)))
+        Island(110, 115, 10, 10, self)
+        Island(118, 128, 8, 8, self)
         Island(115, 140, 20, 20, self, (Grass(4),))
         CircleIsland(100, 100, 10, self)
 

@@ -1,9 +1,9 @@
 CRAFTS_MAP = {
     # (предмет в инвенторе, предмет рядом):(предмет в инвенторе, новый предмет рядом)
     ("stone", "stone"): ("sharp_stone", "stone", None),
-    ("sharp_stone", "tree"): ("sharp_stone", "brevno", None),
+    ('topor', "tree"): ('topor', "brevno", None),
     ("sharp_stone", "paporotnic"): ("sharp_stone", "thread", None),
-    (None, 'tree'): ('stick', 'tree', None),
+    ("sharp_stone", "dry_bush"): ("sharp_stone", 'stick', None),
     ('brevno', 'brevno'): (None, 'brevno_2', None),
     ('brevno', 'brevno_2'): (None, 'brevno_3', None),
     ('brevno', 'brevno_3'): (None, 'brevno_4', None),

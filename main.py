@@ -27,7 +27,7 @@ from barier import Barier
 from ship_map import ShipMap
 import ship
 import machta_
-
+from dry_bush import Dry_bush
 
 def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k,
                 machta):
@@ -63,7 +63,7 @@ def load_game(block_board, entity_board, turtl):
                    'G': ship.Ship_15(),
                    'H': ship.Ship_16(), 'J': ship.Ship_17(), 'K': ship.Ship_18(), 'L': ship.Ship_19(),
                    'Z': ship.Ship_20(),
-                   'X': ship.Ship_21(), 'C': ship.Ship_22(), 'V': ship.Ship_23(), 'B': ship.Ship_24()}
+                   'X': ship.Ship_21(), 'C': ship.Ship_22(), 'V': ship.Ship_23(), 'B': ship.Ship_24(), 'u': Dry_bush()}
     if os.path.isfile("save/save"):
         with open("save/save") as save:
             for y in range(len(block_board.board)):
@@ -112,7 +112,7 @@ def save_game(block_board, entity_board, turtl):
                    'ship_1': 'Q', 'ship_2': 'W', 'ship_3': 'E', 'ship_4': 'R', 'ship_5': 'T', 'ship_6': 'Y',
                    'ship_7': 'U', 'ship_8': 'I', 'ship_9': 'O', 'ship_10': 'P', 'ship_11': 'A', 'ship_12': 'S',
                    'ship_13': 'D', 'ship_14': 'F', 'ship_15': 'G', 'ship_16': 'H', 'ship_17': 'J', 'ship_18': 'K',
-                   'ship_19': 'L', 'ship_20': 'Z', 'ship_21': 'X', 'ship_22': 'C', 'ship_23': 'V', 'ship_24': 'B'}
+                   'ship_19': 'L', 'ship_20': 'Z', 'ship_21': 'X', 'ship_22': 'C', 'ship_23': 'V', 'ship_24': 'B', "dry_bush": 'u'}
     with open(f"save/save", "w") as save:
         for y in block_board.board:
             line = ""
@@ -298,13 +298,14 @@ def main():
                                               max_entity=10)
     entity_board.generate_entity(140, 128, 20, 20, 10, Paporotnik(), board, Grass, min_entity=10, max_entity=30)
     entity_board.generate_entity(120, 140, 20, 20, 5, Tree(), board, Grass, min_entity=30, max_entity=50)
+    entity_board.generate_entity(118, 128, 8, 8, 5, Dry_bush(), board, Grass, min_entity=5, max_entity=10)
     c = 1
     for i in range(1, 5):
         for j in range(1, 4):
-            ship_board.board[130 + i][130 + j] = eval('ship.Ship_' + str(12 + c) + '()')
-            entity_board.board[130 + i][130 + j] = eval('ship.Ship_' + str(c) + '()')
+            ship_board.board[117 + i][112 + j] = eval('ship.Ship_' + str(12 + c) + '()')
+            entity_board.board[117 + i][112 + j] = eval('ship.Ship_' + str(c) + '()')
             c += 1
-    machta_ren.board[132][131] = ship.Machta()
+    machta_ren.board[119][113] = ship.Machta()
 
     fps = 30
     clock = pygame.time.Clock()
