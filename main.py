@@ -24,9 +24,10 @@ from thread import Thread
 from topor import Topor
 from tree import Tree
 from barier import Barier
+from ship_map import ShipMap
 
 
-def render_game(screen, board, entity_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k):
+def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k):
     screen.fill((0, 0, 0))
     board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
     entity_board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
@@ -277,6 +278,7 @@ def main():
     game_time = 0
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     board = Map(256, 256, screen)
+    ship_board = ShipMap(256, 256, screen)
     entity_board = EntityMap(256, 256, screen)
     entity_board.generate_entity(128, 128, 10, 10, 5, Stone(),
                                  board, Grass, min_entity=4, max_entity=8)
@@ -339,7 +341,7 @@ def main():
                             dx = 0
                         for i in range(8):
                             turt.anim_step = i
-                            render_game(screen, board, entity_board, turt, clock, fps,
+                            render_game(screen, board, entity_board, ship_board, turt, clock, fps,
                                         -128 // 8 * i * dx,
                                         -128 // 8 * i * dy, mouse_pos, buttons_pos, buttons_k)
                         turt.anim_step = 0
@@ -367,7 +369,8 @@ def main():
                         save_game(board, entity_board, turt)
                         sys.exit(0)
         if turt.stat["damage"] > 0:
-            render_game(screen, board, entity_board, turt, clock, fps, 0, 0, mouse_pos, buttons_pos, buttons_k)
+            render_game(screen, board, entity_board, ship_board, turt, clock, fps, 0, 0, mouse_pos, buttons_pos,
+                        buttons_k)
             game_time += 1
         else:
             died_screen(screen)
