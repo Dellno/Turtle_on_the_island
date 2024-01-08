@@ -1,4 +1,4 @@
-import os.path
+import os
 import time
 import pygame
 from map import Map
@@ -23,14 +23,14 @@ from stick import Stick
 from thread import Thread
 from topor import Topor
 from tree import Tree
-from rag import Rag
 from barier import Barier
 from ship_map import ShipMap
 import ship
 import machta_
 
 
-def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k, machta):
+def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k,
+                machta):
     screen.fill((0, 0, 0))
     board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
     ship_board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
@@ -59,35 +59,42 @@ def load_game(block_board, entity_board, turtl):
                    'd': Thread(), 'f': Topor(), 'g': Tree(), 'h': turtl, '~': Barier(),
                    'Q': ship.Ship_1(), 'W': ship.Ship_2(), 'E': ship.Ship_3(), 'R': ship.Ship_4(), 'T': ship.Ship_5(),
                    'Y': ship.Ship_6(), 'U': ship.Ship_7(), 'I': ship.Ship_8(), 'O': ship.Ship_9(), 'P': ship.Ship_10(),
-                   'A': ship.Ship_11(), 'S': ship.Ship_12(), 'D': ship.Ship_13(), 'F': ship.Ship_14(), 'G': ship.Ship_15(),
-                   'H': ship.Ship_16(), 'J': ship.Ship_17(), 'K': ship.Ship_18(), 'L': ship.Ship_19(), 'Z': ship.Ship_20(),
+                   'A': ship.Ship_11(), 'S': ship.Ship_12(), 'D': ship.Ship_13(), 'F': ship.Ship_14(),
+                   'G': ship.Ship_15(),
+                   'H': ship.Ship_16(), 'J': ship.Ship_17(), 'K': ship.Ship_18(), 'L': ship.Ship_19(),
+                   'Z': ship.Ship_20(),
                    'X': ship.Ship_21(), 'C': ship.Ship_22(), 'V': ship.Ship_23(), 'B': ship.Ship_24()}
-    with open("save/save") as save:
-        for y in range(len(block_board.board)):
-            keys = save.readline().rstrip('\n')
-            line = []
-            for x in keys:
-                line.append(block_keys[x])
-            block_board.board[y] = line
-        save.readline()
-        for y in range(len(entity_board.board)):
-            keys = save.readline().rstrip('\n')
-            line = []
-            for j, x in enumerate(keys):
-                if isinstance(entity_keys[x], Turtle):
-                    line.append(None)
-                    turt_cords = (j, y)
-                else:
-                    line.append(entity_keys[x])
-            entity_board.board[y] = line
-        save.readline()
-        turtl.stat["damage"] = int(save.readline().rstrip('\n'))
-        turtl.stat["endurance"] = int(save.readline().rstrip('\n'))
-        turtl.inventory = entity_keys[save.readline().rstrip('\n')]
-        turtl.cords = turt_cords
-        turtl.in_plot = bool(int(save.readline().rstrip('\n')))
-        entity_board.board[turt_cords[1]][turt_cords[0]] = turtl
-
+    if os.path.isfile("save/save"):
+        with open("save/save") as save:
+            for y in range(len(block_board.board)):
+                keys = save.readline().rstrip('\n')
+                line = []
+                for x in keys:
+                    line.append(block_keys[x])
+                block_board.board[y] = line
+            save.readline()
+            for y in range(len(entity_board.board)):
+                keys = save.readline().rstrip('\n')
+                line = []
+                for j, x in enumerate(keys):
+                    if isinstance(entity_keys[x], Turtle):
+                        line.append(None)
+                        turt_cords = (j, y)
+                    else:
+                        line.append(entity_keys[x])
+                entity_board.board[y] = line
+            save.readline()
+            turtl.stat["damage"] = int(save.readline().rstrip('\n'))
+            turtl.stat["endurance"] = int(save.readline().rstrip('\n'))
+            turtl.inventory = entity_keys[save.readline().rstrip('\n')]
+            turtl.cords = turt_cords
+            turtl.in_plot = bool(int(save.readline().rstrip('\n')))
+            entity_board.board[turt_cords[1]][turt_cords[0]] = turtl
+    elif os.path.exists('save'):
+        save_game(block_board, entity_board, turtl)
+    else:
+        os.mkdir('save')
+        save_game(block_board, entity_board, turtl)
 
 
 def save_game(block_board, entity_board, turtl):
@@ -95,8 +102,10 @@ def save_game(block_board, entity_board, turtl):
                   "ground_2": "2", "ground_3": "3", "ground_4": "4",
                   "ground_5": "5", "lava": "%", "lava1": "$",
                   "water": "."}
-    entity_keys = {None: '.', "brevno": '0', "brevno_2": '2', "brevno_3": '3', "brevno_4": '4', "endurance_crystal": "#",
-                   "health_cristal": '$', "paporotnic": "%", "plot": "&", "sharp_stone": "*", "stick": '-', "stone": "s",
+    entity_keys = {None: '.', "brevno": '0', "brevno_2": '2', "brevno_3": '3', "brevno_4": '4',
+                   "endurance_crystal": "#",
+                   "health_cristal": '$', "paporotnic": "%", "plot": "&", "sharp_stone": "*", "stick": '-',
+                   "stone": "s",
                    "thread": "d", "topor": 'f', "tree": 'g', "master_turtle": 'h', "barier": '~',
                    'ship_1': 'Q', 'ship_2': 'W', 'ship_3': 'E', 'ship_4': 'R', 'ship_5': 'T', 'ship_6': 'Y',
                    'ship_7': 'U', 'ship_8': 'I', 'ship_9': 'O', 'ship_10': 'P', 'ship_11': 'A', 'ship_12': 'S',
@@ -261,7 +270,8 @@ def died_screen(screen):
                             buttons_pos[0][1] + 64:
                         return
         screen.fill((0, 0, 0))
-        screen.blit(fon, (screen.get_width() // 2 - fon.get_width() // 2, screen.get_height() // 2 - fon.get_height() // 2))
+        screen.blit(fon,
+                    (screen.get_width() // 2 - fon.get_width() // 2, screen.get_height() // 2 - fon.get_height() // 2))
         if buttons_k1 == 0:
             screen.blit(pygame.image.load('assets/texture/restart.png'), buttons_pos[0])
         else:
@@ -280,9 +290,10 @@ def main():
     entity_board = EntityMap(256, 256, screen)
     entity_board.generate_entity(128, 128, 10, 10, 5, Stone(), board, Grass, min_entity=4, max_entity=8)
     end_crystal = entity_board.generate_entity(1, 1, 254, 254, 1, EnduranceCrystal(), board, Grass, 40, max_entity=80)
-    hp_crystal = entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, min_entity=3, max_entity=10)
+    hp_crystal = entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, min_entity=3,
+                                              max_entity=10)
     entity_board.generate_entity(140, 128, 20, 20, 10, Paporotnik(), board, Grass, min_entity=10, max_entity=30)
-    entity_board.generate_entity(120, 140, 20, 20, 5, Tree(), board, Grass, min_entity=10, max_entity=30)
+    entity_board.generate_entity(120, 140, 20, 20, 5, Tree(), board, Grass, min_entity=30, max_entity=50)
     c = 1
     for i in range(1, 5):
         for j in range(1, 4):
@@ -305,10 +316,14 @@ def main():
     while running:
         if game_time >= 36000:
             if end_crystal < 80:
-                entity_board.generate_entity(1, 1, 254, 254, 1, EnduranceCrystal(), board, Grass, 70 - end_crystal, max_entity=70)
+                entity_board.generate_entity(1, 1, 254, 254, 1, EnduranceCrystal(), board, Grass, 70 - end_crystal,
+                                             max_entity=70)
             if hp_crystal < 10:
-                entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, 10 - hp_crystal, max_entity= 10)
+                entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, 10 - hp_crystal,
+                                             max_entity=10)
             game_time = 0
+        if turt.stat['fixed_ship'] >= turt.stat['max_fixed_ship']:
+            pass # тут написать функцию для завершения игры
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False

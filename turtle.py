@@ -27,7 +27,8 @@ import ship
 
 class Turtle:
     def __init__(self, spawn_x, spawn_y, block_map, entity_map):
-        self.stat = {"damage": 3, "endurance": 9, "max_damage": 3, "max_endurance": 9}
+        self.stat = {"damage": 3, "endurance": 9, 'fixed_ship': 0,
+                     "max_damage": 3, "max_endurance": 9, 'max_fixed_ship': 12}
         self.name = "master_turtle"
         self.entity_map = entity_map
         self.block_map = block_map
@@ -141,7 +142,7 @@ class Turtle:
                      "ship_1": ship.Ship_1(), "ship_2": ship.Ship_2(), "ship_3": ship.Ship_3(), "ship_4": ship.Ship_4(),
                      "ship_5": ship.Ship_5(), "ship_6": ship.Ship_7(), "ship_8": ship.Ship_8(), "ship_9": ship.Ship_9(),
                      "ship_10": ship.Ship_10(), "ship_11": ship.Ship_11(), "ship_12": ship.Ship_12(),
-                     'ship_20': ship.Ship_20()
+                     'ship_20': ship.Ship_20(), 'fixed_ship': Entity('fix')
                      }
         element_0 = self.object_is_real(self.inventory)
         element_1 = self.object_is_real(self.entity_map.board[y][x])
@@ -161,6 +162,8 @@ class Turtle:
                 elif (name_data[CRAFTS_MAP[(element_0, element_1)][2]].name == "health_cristal"
                       and self.stat["damage"] < self.stat["max_damage"]):
                     self.stat["damage"] += 1
+                elif name_data[CRAFTS_MAP[(element_0, element_1)][2]].name == 'fix':
+                    self.stat['fixed_ship'] += 1
 
     def object_is_real(self, object):
         if not object is None:
