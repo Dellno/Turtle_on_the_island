@@ -2,6 +2,11 @@ import pygame
 from entity import Entity
 
 
+class Machta(Entity):
+    def __init__(self):
+        super().__init__("machta", sprite="machta_2.png", hardness=-1)
+
+
 class Ship_1(Entity):
     def __init__(self):
         super().__init__("ship_1", sprite="korabl_h1.png", hardness=-1)

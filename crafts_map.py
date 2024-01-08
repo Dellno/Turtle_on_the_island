@@ -22,7 +22,7 @@ CRAFTS_MAP = {
     ('brevno_2', 'ship_5'): (None, None, None),
     ('brevno_2', 'ship_6'): (None, None, None),
     ('brevno_2', 'ship_7'): (None, None, None),
-    ('brevno_2', 'ship_8'): (None, None, None),
+    ('brevno_2', 'ship_8'): (None, 'ship_20', None),
     ('brevno_2', 'ship_9'): (None, None, None),
     ('brevno_2', 'ship_10'): (None, None, None),
     ('brevno_2', 'ship_11'): (None, None, None),
