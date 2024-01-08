@@ -300,7 +300,7 @@ def main():
             ship_board.board[130 + i][130 + j] = eval('ship.Ship_' + str(12 + c) + '()')
             entity_board.board[130 + i][130 + j] = eval('ship.Ship_' + str(c) + '()')
             c += 1
-    machta_ren.board[133][131] = ship.Machta()
+    machta_ren.board[132][131] = ship.Machta()
 
     fps = 30
     clock = pygame.time.Clock()
