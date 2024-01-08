@@ -23,6 +23,7 @@ from stick import Stick
 from thread import Thread
 from topor import Topor
 from tree import Tree
+from rag import Rag
 from barier import Barier
 
 
