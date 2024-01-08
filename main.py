@@ -316,8 +316,9 @@ def start_screen(screen, clock):
 
 def died_screen(screen):
     fon = pygame.image.load('assets/texture/died.png')
-    buttons_k1 = 0
-    buttons_pos = [(screen.get_width() // 2 - 80, screen.get_height() // 4),]
+    buttons_k1, buttons_k2 = 0, 0
+    buttons_pos = [(screen.get_width() // 4, screen.get_height() // 1.5),
+                   (screen.get_width() // 1.7, screen.get_height() // 1.5), ]
     pygame.mouse.set_visible(False)
     mouse_pos = (0, 0)
     while True:
@@ -334,6 +335,9 @@ def died_screen(screen):
                     if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
                             buttons_pos[0][1] + 64:
                         buttons_k1 = 1
+                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
+                            buttons_pos[1][1] + 64:
+                        buttons_k2 = 1
             else:
                 buttons_k1, buttons_k2 = 0, 0
             if event.type == pygame.MOUSEBUTTONUP:
@@ -342,13 +346,21 @@ def died_screen(screen):
                     x1, y1 = event.pos
                     if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
                             buttons_pos[0][1] + 64:
-                        return
+                        return 'new'
+                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
+                            buttons_pos[1][1] + 64:
+                        return 'load'
         screen.fill((0, 0, 0))
         screen.blit(fon, (screen.get_width() // 7, screen.get_height() // 3))
         if buttons_k1 == 0:
-            screen.blit(pygame.image.load('assets/texture/restart.png'), buttons_pos[0])
+            screen.blit(pygame.image.load('assets/texture/new_game.png'), buttons_pos[0])
         else:
-            screen.blit(pygame.image.load('assets/texture/restart_1.png'), buttons_pos[0])
+            screen.blit(pygame.image.load('assets/texture/new_game_1.png'), buttons_pos[0])
+
+        if buttons_k2 == 0:
+            screen.blit(pygame.image.load('assets/texture/load_game_1.png'), buttons_pos[1])
+        else:
+            screen.blit(pygame.image.load('assets/texture/load_game.png'), buttons_pos[1])
         screen.blit(pygame.image.load('assets/texture/arrow.png'), mouse_pos)
         pygame.display.flip()
 
