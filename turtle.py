@@ -28,7 +28,7 @@ import ship
 class Turtle:
     def __init__(self, spawn_x, spawn_y, block_map, entity_map):
         self.stat = {"damage": 3, "endurance": 9, 'fixed_ship': 0,
-                     "max_damage": 3, "max_endurance": 9, 'max_fixed_ship': 12}
+                     "max_damage": 3, "max_endurance": 9, 'max_fixed_ship': 11}
         self.name = "master_turtle"
         self.entity_map = entity_map
         self.block_map = block_map
