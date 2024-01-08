@@ -31,6 +31,7 @@ from ship_map import ShipMap
 def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k):
     screen.fill((0, 0, 0))
     board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
+    ship_board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
     entity_board.render(turtl.cords[0], turtl.cords[1], pix_x, pix_y)
     if pygame.mouse.get_focused() and pix_x == 0 and pix_y == 0:
         x, y = pos[0] // 128, pos[1] // 128
@@ -311,7 +312,8 @@ def start_screen(screen, clock):
             screen.blit(pygame.image.load('assets/texture/how_to_play_1.png'), buttons_pos[2])
 
         if kk:
-            screen.blit(pygame.image.load('assets/texture/explanatory_card.png'), (screen.get_width() - 510, (screen.get_height() - 700) // 2))
+            screen.blit(pygame.image.load('assets/texture/explanatory_card.png'), (screen.get_width() - 510,
+                                                                                   (screen.get_height() - 700) // 2))
 
         if pygame.mouse.get_focused():
             screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
@@ -332,7 +334,6 @@ def died_screen(screen):
             if event.type == pygame.MOUSEMOTION:
                 mouse_pos = event.pos
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                print(screen.get_width(), screen.get_height())
                 if event.button == 1:
                     x1, y1 = event.pos
                     if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
@@ -341,14 +342,13 @@ def died_screen(screen):
             else:
                 buttons_k1 = 0
             if event.type == pygame.MOUSEBUTTONUP:
-                print(screen.get_width(), screen.get_height())
                 if event.button == 1:
                     x1, y1 = event.pos
                     if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
                             buttons_pos[0][1] + 64:
                         return
         screen.fill((0, 0, 0))
-        screen.blit(fon, (screen.get_width() // 7, screen.get_height() // 3))
+        screen.blit(fon, (screen.get_width() // 2 - fon.get_width() // 2, screen.get_height() // 2 - fon.get_height() // 2))
         if buttons_k1 == 0:
             screen.blit(pygame.image.load('assets/texture/restart.png'), buttons_pos[0])
         else:
