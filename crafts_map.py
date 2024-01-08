@@ -13,5 +13,18 @@ CRAFTS_MAP = {
     (None, 'brevno_4'): ('brevno', 'brevno_3', None),
     (None, "endurance_crystal"): (None, None, "endurance_crystal"),
     (None, "health_cristal"): (None, None, "health_cristal"),
-    ('stick', "sharp_stone"): ('topor', None, None)
+    ('stick', "sharp_stone"): ('topor', None, None),
+
+    ('brevno_2', 'ship_1'): (None, None, None),
+    ('brevno_2', 'ship_2'): (None, None, None),
+    ('brevno_2', 'ship_3'): (None, None, None),
+    ('brevno_2', 'ship_4'): (None, None, None),
+    ('brevno_2', 'ship_5'): (None, None, None),
+    ('brevno_2', 'ship_6'): (None, None, None),
+    ('brevno_2', 'ship_7'): (None, None, None),
+    ('brevno_2', 'ship_8'): (None, None, None),
+    ('brevno_2', 'ship_9'): (None, None, None),
+    ('brevno_2', 'ship_10'): (None, None, None),
+    ('brevno_2', 'ship_11'): (None, None, None),
+    ('brevno_2', 'ship_12'): (None, None, None),
 }

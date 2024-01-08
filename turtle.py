@@ -22,6 +22,7 @@ from plot import Plot
 from health_crystal import HealthCrystal
 from endurance_crystal import EnduranceCrystal
 from topor import Topor
+import ship
 
 
 class Turtle:
@@ -136,7 +137,10 @@ class Turtle:
         name_data = {"stone": Stone(), "sharp_stone": SharpStone(), None: None, "brevno": Brevno(),
                      "paporotnic": Paporotnik(), "thread": Thread(), "stick": Stick(), "tree": Tree(),
                      "brevno_2": Brevno_2(), "brevno_3": Brevno_3(), "brevno_4": Brevno_4(), "plot": Plot(),
-                     "health_cristal": HealthCrystal(), "endurance_crystal": EnduranceCrystal(), "topor": Topor()
+                     "health_cristal": HealthCrystal(), "endurance_crystal": EnduranceCrystal(), "topor": Topor(),
+                     "ship_1": ship.Ship_1(), "ship_2": ship.Ship_2(), "ship_3": ship.Ship_3(), "ship_4": ship.Ship_4(),
+                     "ship_5": ship.Ship_5(), "ship_6": ship.Ship_7(), "ship_8": ship.Ship_8(), "ship_9": ship.Ship_9(),
+                     "ship_10": ship.Ship_10(), "ship_11": ship.Ship_11(), "ship_12": ship.Ship_12()
                      }
         element_0 = self.object_is_real(self.inventory)
         element_1 = self.object_is_real(self.entity_map.board[y][x])

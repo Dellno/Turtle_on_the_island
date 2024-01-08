@@ -26,6 +26,7 @@ from tree import Tree
 from rag import Rag
 from barier import Barier
 from ship_map import ShipMap
+import ship
 
 
 def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k):
@@ -141,6 +142,12 @@ def main():
     hp_crystal = entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, min_entity=3, max_entity=10)
     entity_board.generate_entity(140, 128, 20, 20, 10, Paporotnik(), board, Grass, min_entity=10, max_entity=30)
     entity_board.generate_entity(120, 140, 20, 20, 5, Tree(), board, Grass, min_entity=10, max_entity=30)
+    c = 1
+    for i in range(1, 5):
+        for j in range(1, 4):
+            ship_board.board[130 + i][130 + j] = eval('ship.Ship_' + str(12 + c) + '()')
+            entity_board.board[130 + i][130 + j] = eval('ship.Ship_' + str(c) + '()')
+            c += 1
 
     fps = 30
     clock = pygame.time.Clock()
@@ -323,7 +330,7 @@ def start_screen(screen, clock):
 def died_screen(screen):
     fon = pygame.image.load('assets/texture/died.png')
     buttons_k1 = 0
-    buttons_pos = [(screen.get_width() // 2 - 80, screen.get_height() // 4)]
+    buttons_pos = [(screen.get_width() // 2 - 80, screen.get_height() // 2 + 280)]
     pygame.mouse.set_visible(False)
     mouse_pos = (0, 0)
     while True:
