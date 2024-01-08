@@ -29,6 +29,7 @@ import ship
 import machta_
 from dry_bush import Dry_bush
 
+
 def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k,
                 machta):
     screen.fill((0, 0, 0))
@@ -445,7 +446,7 @@ def main():
                         buttons_k, machta_ren)
             game_time += 1
         else:
-            died_screen(screen, clock)
+            died_screen(screen)
             main()
 
 
