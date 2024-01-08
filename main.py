@@ -54,9 +54,8 @@ def load_game(block_board, entity_board, turtl):
     entity_keys = {'.': None, '0': Brevno(), '2': Brevno_2(), '3': Brevno_3(),
                    '4': Brevno_4(), '#': EnduranceCrystal(), '$': HealthCrystal(),
                    '%': Paporotnik(), '&': Plot(), '*': SharpStone(), '-': Stick(),
-                   's': Stone(), 'd': Thread(), 'f': Topor(), 'g': Tree(), 'h': turtl,
-                   '~': Barier()}
-    if os.path.isfile('save/save'):
+                   's': Stone(), 'd': Thread(), 'f': Topor(), 'g': Tree(), 'h': turtl}
+    if os.path.isfile('save'):
         with open("save/save") as save:
             for y in range(len(block_board.board)):
                 keys = save.readline().rstrip('\n')
@@ -292,7 +291,7 @@ def start_screen(screen, clock):
         screen.blit(fon, (x + 5000, y))
 
         if x in range(-2670, -800):
-            screen.blit(plot_anim[int((c % 7) // 4)], (280, screen.get_height() // 2))
+            screen.blit(plot_anim[int((c % 7) // 4)], (300, screen.get_height() // 2))
             screen.blit(turt, (300, screen.get_height() // 2))
         else:
             screen.blit(plot_img, (x + 1100, screen.get_height() // 2))
