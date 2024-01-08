@@ -298,7 +298,7 @@ def start_screen(screen, clock):
         screen.blit(fon, (x + 5000, y))
 
         if x in range(-2670, -800):
-            screen.blit(plot_anim[int((c % 7) // 4)], (280, screen.get_height() // 2))
+            screen.blit(plot_anim[int((c % 7) // 4)], (300, screen.get_height() // 2))
             screen.blit(turt, (300, screen.get_height() // 2))
         else:
             screen.blit(plot_img, (x + 1100, screen.get_height() // 2))
