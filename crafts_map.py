@@ -26,4 +26,5 @@ CRAFTS_MAP = {
     ('brevno_2', 'ship_10'): (None, None, 'fixed_ship'),
     ('brevno_2', 'ship_11'): (None, None, 'fixed_ship'),
     ('brevno_2', 'ship_12'): (None, None, 'fixed_ship'),
+
 }

@@ -89,7 +89,9 @@ def load_game(block_board, entity_board, turtl):
             turtl.inventory = entity_keys[save.readline().rstrip('\n')]
             turtl.cords = turt_cords
             turtl.in_plot = bool(int(save.readline().rstrip('\n')))
+            turtl.stat['fixed_ship'] = int(save.readline().rstrip('\n'))
             entity_board.board[turt_cords[1]][turt_cords[0]] = turtl
+
     elif os.path.exists('save'):
         save_game(block_board, entity_board, turtl)
     else:
@@ -146,6 +148,8 @@ def save_game(block_board, entity_board, turtl):
         else:
             save.write('0')
             save.write('\n')
+        save.write(str(turtl.stat['fixed_ship']))
+        save.write('\n')
 
 
 def start_screen(screen, clock):
