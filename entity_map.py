@@ -1,11 +1,5 @@
 from random import randint
-
-import pygame
-from entity import Entity
-from stone import Stone
-from sharp_stone import SharpStone
 from map import Map
-from dirt_block import Grass
 from barier import Barier
 
 
@@ -38,4 +32,3 @@ class EntityMap(Map):
             self.board[245][x] = Barier()
             self.board[x][10] = Barier()
             self.board[x][245] = Barier()
-

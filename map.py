@@ -1,5 +1,3 @@
-import pygame
-from block import Block
 from water_block import Water
 from dirt_block import Grass
 from circle_island import CircleIsland

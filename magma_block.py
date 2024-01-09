@@ -1,6 +1,3 @@
-from random import randint
-
-import pygame
 from block import Block
 
 

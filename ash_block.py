@@ -1,4 +1,3 @@
-import pygame
 from block import Block
 
 

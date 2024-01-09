@@ -1,8 +1,5 @@
-import pygame
 from random import randint
 from dirt_block import Grass
-from water_block import Water
-from stone import Stone
 
 
 class Island:

@@ -1,5 +1,3 @@
-import pygame
-
 from block import Block
 
 
@@ -18,4 +16,3 @@ class Grass(Block):
             super().__init__("ground_4.png", "ground_4")
         if texture_type == 5:
             super().__init__("graviy.png", "ground_5")
-

@@ -1,9 +1,8 @@
 import os
-import time
+import sys
 import pygame
 from map import Map
 from entity_map import EntityMap
-import sys
 from turtle import Turtle
 from stone import Stone
 from dirt_block import Grass
@@ -27,7 +26,7 @@ from barier import Barier
 from ship_map import ShipMap
 import ship
 import machta_
-from dry_bush import Dry_bush
+from dry_bush import DryBush
 
 
 def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k,
@@ -41,9 +40,9 @@ def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_
         x, y = pos[0] // 128, pos[1] // 128
         pygame.draw.rect(screen, (255, 255, 255), (x * 128, y * 128, 128, 128), 3)
     if buttons_k[0] == 0:
-        screen.blit(pygame.image.load('assets/texture/save.png'), buttons_pos[0])
+        screen.blit(pygame.image.load('assets/texture/buttons/save.png'), buttons_pos[0])
     else:
-        screen.blit(pygame.image.load('assets/texture/save_1.png'), buttons_pos[0])
+        screen.blit(pygame.image.load('assets/texture/buttons/save_1.png'), buttons_pos[0])
     if pygame.mouse.get_focused() and pix_x == 0 and pix_y == 0:
         screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
     pygame.display.flip()
@@ -64,7 +63,7 @@ def load_game(block_board, entity_board, turtl):
                    'G': ship.Ship_15(),
                    'H': ship.Ship_16(), 'J': ship.Ship_17(), 'K': ship.Ship_18(), 'L': ship.Ship_19(),
                    'Z': ship.Ship_20(),
-                   'X': ship.Ship_21(), 'C': ship.Ship_22(), 'V': ship.Ship_23(), 'B': ship.Ship_24(), 'u': Dry_bush()}
+                   'X': ship.Ship_21(), 'C': ship.Ship_22(), 'V': ship.Ship_23(), 'B': ship.Ship_24(), 'u': DryBush()}
     if os.path.isfile("save/save"):
         with open("save/save") as save:
             for y in range(len(block_board.board)):
@@ -157,9 +156,12 @@ def save_game(block_board, entity_board, turtl):
 
 
 def final_screen(screen, clock):
-    fon = pygame.transform.scale(pygame.image.load('assets/texture/final_fon.png'), (screen.get_width() + 300, screen.get_height()))
-    ship_im = [pygame.transform.scale(pygame.image.load('assets/texture/ship_1.png'), (screen.get_width() * 0.4, screen.get_height() * 0.4)),
-               pygame.transform.scale(pygame.image.load('assets/texture/ship_2.png'), (screen.get_width() * 0.4, screen.get_height() * 0.4))]
+    fon = pygame.transform.scale(pygame.image.load('assets/texture/screens/final_fon.png'),
+                                 (screen.get_width() + 300, screen.get_height()))
+    ship_im = [pygame.transform.scale(pygame.image.load('assets/texture/screens/ship_1.png'),
+                                      (screen.get_width() * 0.4, screen.get_height() * 0.4)),
+               pygame.transform.scale(pygame.image.load('assets/texture/screens/ship_2.png'),
+                                      (screen.get_width() * 0.4, screen.get_height() * 0.4))]
     buttons_pos = [(screen.get_width() // 1.15, 32), (screen.get_width() // 1.15, 128)]
     buttons_k = 0
     pygame.mouse.set_visible(False)
@@ -203,18 +205,16 @@ def final_screen(screen, clock):
         screen.blit(ship_im[int((c % 7) // 4)], (400, screen.get_height() // 2 - 210))
 
         if buttons_k == 0:
-            screen.blit(pygame.image.load('assets/texture/exit_f.png'), buttons_pos[0])
+            screen.blit(pygame.image.load('assets/texture/buttons/exit_f.png'), buttons_pos[0])
         else:
-            screen.blit(pygame.image.load('assets/texture/exit_f2.png'), buttons_pos[0])
+            screen.blit(pygame.image.load('assets/texture/buttons/exit_f2.png'), buttons_pos[0])
 
         if pygame.mouse.get_focused():
             screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
 
 
-
-
 def start_screen(screen, clock):
-    fon = pygame.transform.scale(pygame.image.load('assets/texture/fon.png'), (5000, screen.get_height()))
+    fon = pygame.transform.scale(pygame.image.load('assets/texture/screens/fon.png'), (5000, screen.get_height()))
     plot_img = pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot.png'), 270)
     turtle_anim = [pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_' + str(i) + '.png'),
                                            270) for i in range(1, 9)]
@@ -282,23 +282,24 @@ def start_screen(screen, clock):
             screen.blit(plot_img, (x + 1100, screen.get_height() // 2))
             screen.blit(turtle_anim[int(c // 3.8)], (300, screen.get_height() // 2))
         if buttons_k1 == 0:
-            screen.blit(pygame.image.load('assets/texture/new_game.png'), buttons_pos[0])
+            screen.blit(pygame.image.load('assets/texture/buttons/new_game.png'), buttons_pos[0])
         else:
-            screen.blit(pygame.image.load('assets/texture/new_game_1.png'), buttons_pos[0])
+            screen.blit(pygame.image.load('assets/texture/buttons/new_game_1.png'), buttons_pos[0])
 
         if buttons_k2 == 0:
-            screen.blit(pygame.image.load('assets/texture/load_game_1.png'), buttons_pos[1])
+            screen.blit(pygame.image.load('assets/texture/buttons/load_game_1.png'), buttons_pos[1])
         else:
-            screen.blit(pygame.image.load('assets/texture/load_game.png'), buttons_pos[1])
+            screen.blit(pygame.image.load('assets/texture/buttons/load_game.png'), buttons_pos[1])
 
         if buttons_k3 == 0:
-            screen.blit(pygame.image.load('assets/texture/how_to_play.png'), buttons_pos[2])
+            screen.blit(pygame.image.load('assets/texture/buttons/how_to_play.png'), buttons_pos[2])
         else:
-            screen.blit(pygame.image.load('assets/texture/how_to_play_1.png'), buttons_pos[2])
+            screen.blit(pygame.image.load('assets/texture/buttons/how_to_play_1.png'), buttons_pos[2])
 
         if kk:
-            screen.blit(pygame.image.load('assets/texture/explanatory_card.png'), (screen.get_width() - 510,
-                                                                                   (screen.get_height() - 700) // 2))
+            screen.blit(pygame.image.load('assets/texture/screens/explanatory_card.png'), (screen.get_width() - 510,
+                                                                                           (
+                                                                                                   screen.get_height() - 700) // 2))
 
         if pygame.mouse.get_focused():
             screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
@@ -306,7 +307,7 @@ def start_screen(screen, clock):
 
 
 def died_screen(screen):
-    fon = pygame.image.load('assets/texture/died.png')
+    fon = pygame.image.load('assets/texture/screens/died.png')
     buttons_k1 = 0
     buttons_pos = [(screen.get_width() // 2 - 80, screen.get_height() // 2 + 280)]
     pygame.mouse.set_visible(False)
@@ -336,9 +337,9 @@ def died_screen(screen):
         screen.blit(fon,
                     (screen.get_width() // 2 - fon.get_width() // 2, screen.get_height() // 2 - fon.get_height() // 2))
         if buttons_k1 == 0:
-            screen.blit(pygame.image.load('assets/texture/restart.png'), buttons_pos[0])
+            screen.blit(pygame.image.load('assets/texture/buttons/restart.png'), buttons_pos[0])
         else:
-            screen.blit(pygame.image.load('assets/texture/restart_1.png'), buttons_pos[0])
+            screen.blit(pygame.image.load('assets/texture/buttons/restart_1.png'), buttons_pos[0])
 
         screen.blit(pygame.image.load('assets/texture/arrow.png'), mouse_pos)
         pygame.display.flip()
@@ -357,7 +358,7 @@ def main():
                                               max_entity=10)
     entity_board.generate_entity(140, 128, 20, 20, 10, Paporotnik(), board, Grass, min_entity=10, max_entity=30)
     entity_board.generate_entity(120, 140, 20, 20, 5, Tree(), board, Grass, min_entity=30, max_entity=50)
-    entity_board.generate_entity(118, 128, 8, 8, 5, Dry_bush(), board, Grass, min_entity=5, max_entity=10)
+    entity_board.generate_entity(118, 128, 8, 8, 5, DryBush(), board, Grass, min_entity=5, max_entity=10)
     c = 1
     for i in range(1, 5):
         for j in range(1, 4):

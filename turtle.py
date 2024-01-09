@@ -1,10 +1,5 @@
-import time
-
 import pygame
-
-import dirt_block
 from entity import Entity
-from block import Block
 from dirt_block import Grass
 from water_block import Water
 from stone import Stone
@@ -164,7 +159,6 @@ class Turtle:
                     self.stat["damage"] += 1
                 elif name_data[CRAFTS_MAP[(element_0, element_1)][2]].name == 'fix':
                     self.stat['fixed_ship'] += 1
-                    print(self.stat)
 
     def object_is_real(self, object):
         if not object is None:

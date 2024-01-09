@@ -30,7 +30,6 @@ class CircleIsland:
         num1 = R - (num5 + num2 + num3 + num4)
         num5 = num5 + 1
 
-
         texture_percentages = {
             0: num1,
             2: num2,

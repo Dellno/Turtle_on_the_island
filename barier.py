@@ -1,6 +1,7 @@
 from entity import Entity
 from load_sprite import load_sprite
 
+
 class Barier(Entity):
     def __init__(self):
         super().__init__("barier", sprite='barier.png', hardness=-1)
