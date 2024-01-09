@@ -11,10 +11,30 @@ class Map:
         self.height = height
         self.board = [[Water()] * width for _ in range(height)]
         Island(128, 128, 10, 10, self)
-        Island(140, 128, 20, 20, self, (Grass(2), Grass(4)))
-        Island(110, 115, 10, 10, self)
-        Island(118, 128, 8, 8, self)
-        Island(115, 140, 20, 20, self, (Grass(4),))
+
+        Island(142, 128, 6, 6, self, (Grass(2), Grass(4)))
+        Island(147, 128, 6, 6, self, (Grass(2), Grass(4)))
+        Island(140, 133, 6, 6, self, (Grass(2), Grass(4)))
+        Island(145, 133, 6, 6, self, (Grass(2), Grass(4)))
+        Island(142, 138, 6, 6, self, (Grass(2), Grass(4)))
+        Island(147, 138, 6, 6, self, (Grass(2), Grass(4)))
+        Island(149, 128, 6, 6, self, (Grass(2), Grass(4)))
+        Island(149, 140, 6, 6, self, (Grass(2), Grass(4)))
+
+        Island(108, 115, 6, 6, self)
+        Island(113, 115, 6, 6, self)
+        Island(110, 118, 6, 6, self)
+        Island(113, 118, 6, 6, self)
+        Island(112, 116, 6, 7, self, (Grass(4),))
+
+        Island(117, 129, 8, 8, self, (Grass(0),))
+        Island(118, 130, 6, 6, self, (Grass(2),))
+        Island(118, 130, 6, 6, self, (Grass(4), Grass(2)))
+
+        Island(115, 140, 20, 7, self, (Grass(4),))
+        Island(110, 144, 20, 7, self, (Grass(4),))
+        Island(105, 148, 20, 7, self, (Grass(4),))
+
         CircleIsland(100, 100, 10, self)
 
         # 10 - это кол-во кругов то есть ширина и длина 20
