@@ -29,6 +29,7 @@ import ship
 import machta_
 from dry_bush import Dry_bush
 
+
 def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k,
                 machta):
     screen.fill((0, 0, 0))
@@ -112,7 +113,10 @@ def save_game(block_board, entity_board, turtl):
                    'ship_1': 'Q', 'ship_2': 'W', 'ship_3': 'E', 'ship_4': 'R', 'ship_5': 'T', 'ship_6': 'Y',
                    'ship_7': 'U', 'ship_8': 'I', 'ship_9': 'O', 'ship_10': 'P', 'ship_11': 'A', 'ship_12': 'S',
                    'ship_13': 'D', 'ship_14': 'F', 'ship_15': 'G', 'ship_16': 'H', 'ship_17': 'J', 'ship_18': 'K',
-                   'ship_19': 'L', 'ship_20': 'Z', 'ship_21': 'X', 'ship_22': 'C', 'ship_23': 'V', 'ship_24': 'B', "dry_bush": 'u'}
+                   'ship_19': 'L', 'ship_20': 'Z', 'ship_21': 'X', 'ship_22': 'C', 'ship_23': 'V', 'ship_24': 'B',
+                   "dry_bush": 'u'}
+    if not os.path.exists('save'):
+        os.mkdir('save')
     with open(f"save/save", "w") as save:
         for y in block_board.board:
             line = ""
@@ -328,7 +332,7 @@ def main():
                                              max_entity=10)
             game_time = 0
         if turt.stat['fixed_ship'] >= turt.stat['max_fixed_ship']:
-            pass # тут написать функцию для завершения игры
+            pass  # тут написать функцию для завершения игры
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
