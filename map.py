@@ -4,6 +4,7 @@ from water_block import Water
 from dirt_block import Grass
 from circle_island import CircleIsland
 from island import Island
+from risland import rIsland
 from turtle import Turtle
 
 
@@ -13,6 +14,7 @@ class Map:
         self.height = height
         self.board = [[Water()] * width for _ in range(height)]
         Island(128, 128, 10, 10, self)
+        rIsland(117, 128, 10, 10, self)
         Island(140, 128, 20, 20, self, (Grass(2), Grass(4)))
         Island(115, 140, 20, 20, self, (Grass(4),))
         CircleIsland(100, 100, 10, self)
