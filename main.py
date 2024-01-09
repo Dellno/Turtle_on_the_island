@@ -158,7 +158,8 @@ def save_game(block_board, entity_board, turtl):
 
 def final_screen(screen, clock):
     fon = pygame.transform.scale(pygame.image.load('assets/texture/final_fon.png'), (screen.get_width() + 300, screen.get_height()))
-    ship_im = [pygame.image.load('assets/texture/ship_1.png'), pygame.image.load('assets/texture/ship_2.png')]
+    ship_im = [pygame.transform.scale(pygame.image.load('assets/texture/ship_1.png'), (screen.get_width() * 0.4, screen.get_height() * 0.4)),
+               pygame.transform.scale(pygame.image.load('assets/texture/ship_2.png'), (screen.get_width() * 0.4, screen.get_height() * 0.4))]
     buttons_pos = [(screen.get_width() // 1.15, 32), (screen.get_width() // 1.15, 128)]
     buttons_k = 0
     pygame.mouse.set_visible(False)
