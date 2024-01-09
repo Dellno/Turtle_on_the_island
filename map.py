@@ -32,8 +32,8 @@ class Map:
         Island(118, 130, 6, 6, self, (Grass(4), Grass(2)))
 
         Island(115, 140, 20, 7, self, (Grass(4),))
-        Island(110, 144, 20, 7, self, (Grass(4),))
-        Island(105, 148, 20, 7, self, (Grass(4),))
+        Island(112, 145, 20, 7, self, (Grass(4),))
+        Island(109, 150, 20, 7, self, (Grass(4),))
 
         CircleIsland(100, 100, 10, self)
 
