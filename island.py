@@ -2,6 +2,7 @@ from random import randint
 from dirt_block import Grass
 
 
+# остров. генерирует из блоков пригодных для передвежения острова
 class Island:
     def __init__(self, x, y, width, height, set_map, island_block=None):
         if island_block is None:

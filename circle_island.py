@@ -4,6 +4,7 @@ from magma_block import Magma
 from ash_block import Ash
 
 
+# круглый секретный остров-вулкан.
 class CircleIsland:
     def __init__(self, x, y, radius, set_map, island_block=None):
         if island_block is None:

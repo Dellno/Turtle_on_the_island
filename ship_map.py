@@ -1,6 +1,7 @@
 from map import Map
 
 
+# карта для карабля
 class ShipMap(Map):
     def __init__(self, width, height, screen):
         self.width = width

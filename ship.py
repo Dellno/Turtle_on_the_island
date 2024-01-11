@@ -1,6 +1,7 @@
 from entity import Entity
 
 
+# элементы для коробля. используется для генерации корабля
 class Machta(Entity):
     def __init__(self):
         super().__init__("machta", sprite="machta_2.png", hardness=-1)

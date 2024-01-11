@@ -2,6 +2,7 @@ from random import randint
 from block import Block
 
 
+# вода. отнимает выносливость черепашки при перемещении
 class Water(Block):
     def __init__(self):
         super().__init__("more.png", "water")

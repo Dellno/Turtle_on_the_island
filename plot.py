@@ -3,6 +3,7 @@ from entity import Entity
 from load_sprite import load_sprite
 
 
+# плот. является средством передвежения для черепашки
 class Plot(Entity):
     def __init__(self):
         super().__init__("plot", sprite="plot.png", hardness=0, weight=0)

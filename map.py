@@ -5,11 +5,13 @@ from island import Island
 from turtle import Turtle
 
 
+# клас для отрисовки блоков. родительский класс для остальных карт
 class Map:
     def __init__(self, width, height, screen):
         self.width = width
         self.height = height
         self.board = [[Water()] * width for _ in range(height)]
+        # генерация основных островов
         Island(128, 128, 10, 10, self)
 
         Island(142, 128, 6, 6, self, (Grass(2), Grass(4)))
@@ -43,6 +45,7 @@ class Map:
         self.left = 0
         self.top = 0
 
+    # отрисовка всех элементов
     # cell_x и cell_y это координаты на которых стоит черепашка, они будут центральными. (от 0 до размера карты - 1)
     # pix_x и pix_y это координаты смещения, необходимы для синхронизации движения карты с движением черепашки. (-128, 128)
     def render(self, cell_x: int, cell_y: int, pix_x=0, pix_y=0):
@@ -66,10 +69,13 @@ class Map:
             dry += step
             drx = pix_x
 
+    # метод для определения нажатой клетки
     def get_cell(self, mouse):
         cell_y = mouse[1] // 128
         cell_x = mouse[0] // 128
         return cell_x + self.left, cell_y + self.top
+
+    # возвращает нажатую клетку
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)

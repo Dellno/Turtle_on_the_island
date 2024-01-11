@@ -23,23 +23,23 @@ import ship
 class Turtle:
     def __init__(self, spawn_x, spawn_y, block_map, entity_map):
         self.stat = {"damage": 3, "endurance": 9, 'fixed_ship': 0,
-                     "max_damage": 3, "max_endurance": 9, 'max_fixed_ship': 11}
+                     "max_damage": 3, "max_endurance": 9, 'max_fixed_ship': 11}  # параметры черепашки
         self.name = "master_turtle"
         self.entity_map = entity_map
         self.block_map = block_map
         self.cords = (spawn_x, spawn_y)
-        self.static_anim = 0
+        self.static_anim = 0  # этап статической анимации
         self.anim = [[pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_' + str(i) + '.png'),
                                               j) for i in range(1, 19)] for j in [0, 270, 180, 90]]
 
-        self.inventory = None
+        self.inventory = None  # инвентарь
         self.max_hardness = 0
         self.rotate = 0
-        self.anim_step = 0
-        self.turtle_damage = pygame.image.load('assets/texture/turtle/turtle_0.png')
+        self.anim_step = 0  # текущий шаг анимации передвежения
         self.hp = pygame.transform.scale(pygame.image.load('assets/texture/entity/health_crystal.png'), (64, 64))
         self.end = pygame.transform.scale(pygame.image.load('assets/texture/entity/endurance_crystal.png'), (64, 64))
         self.in_plot = False
+        # поиск блока для спавна. при отсутствии создаётся автоматически
         i_spawn = False
         for y in range(spawn_y, spawn_y + 30):
             for x in range(spawn_x, spawn_x + 30):
@@ -54,6 +54,7 @@ class Turtle:
             block_map.board[spawn_y][spawn_x] = Grass(0)
             entity_map.board[spawn_y][spawn_x] = self
 
+    # отрисовка черепашки
     def render(self, x, y, screen):
         if isinstance(self.block_map.board[self.cords[1]][self.cords[0]], Water) and not self.in_plot:
             if self.anim_step != 0:
@@ -80,6 +81,7 @@ class Turtle:
             for i in range(self.stat['endurance']):
                 screen.blit(self.end, (48 * i, 0))
 
+    # проверяет возможность перемещения
     def is_correct_move(self, x, y):
         if (((self.cords[0] != x) ^ (self.cords[1] != y)) and
                 (self.entity_map.board[y][x] is None
@@ -95,6 +97,7 @@ class Turtle:
             return True
         return False
 
+    # перемещает черепашку
     def move(self, x, y):
         if not self.in_plot:
             block_event = self.block_map.board[y][x].block_event()
@@ -106,6 +109,7 @@ class Turtle:
             self.entity_map.board[self.cords[1]][self.cords[0]] = None
         self.entity_map.board[y][x] = self
 
+    # отвечает за управление инвентарём
     def inventory_move(self, x, y):
         if self.entity_map.board[y][x] is None:
             self.entity_map.board[y][x] = self.inventory
@@ -129,6 +133,7 @@ class Turtle:
             except Exception:
                 pass
 
+    # отвечает за создание предметов и их использование
     def crafter(self, x, y):
         name_data = {"stone": Stone(), "sharp_stone": SharpStone(), None: None, "brevno": Brevno(),
                      "paporotnic": Paporotnik(), "thread": Thread(), "stick": Stick(), "tree": Tree(),
@@ -160,6 +165,7 @@ class Turtle:
                 elif name_data[CRAFTS_MAP[(element_0, element_1)][2]].name == 'fix':
                     self.stat['fixed_ship'] += 1
 
+    # проверк на наличе объекта в текщем блоке
     def object_is_real(self, object):
         if not object is None:
             return object.name

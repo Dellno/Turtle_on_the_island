@@ -3,6 +3,7 @@ from map import Map
 from barier import Barier
 
 
+# карта сущностей. генерируется поверх карты блоков. хранит и отрисовавыет все сущности.
 class EntityMap(Map):
     def __init__(self, width, height, screen):
         self.width = width
@@ -12,6 +13,7 @@ class EntityMap(Map):
         self.cell_size = 128
         self.screen = screen
 
+    # генерирует предметы на карте. возвращает их количиство
     def generate_entity(self, start_x, start_y, width, height, luck, entity,
                         block_map, block_type, min_entity=4, max_entity=20):
         entity_count = 0
@@ -26,6 +28,7 @@ class EntityMap(Map):
                     return entity_count
         return entity_count
 
+    # генерирует игровые граници
     def generate_barier(self):
         for x in range(10, 245):
             self.board[10][x] = Barier()

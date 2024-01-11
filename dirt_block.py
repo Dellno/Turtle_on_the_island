@@ -1,6 +1,7 @@
 from block import Block
 
 
+# основной блок игры. самый безопасный для игрока.
 class Grass(Block):
     def __init__(self, texture_type: int):
         self.texture_type = texture_type

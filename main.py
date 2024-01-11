@@ -29,6 +29,7 @@ import machta_
 from dry_bush import DryBush
 
 
+# отрисовка карт и курсоров
 def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k,
                 machta):
     screen.fill((0, 0, 0))
@@ -49,6 +50,7 @@ def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_
     clock.tick(fps)
 
 
+# загрузка сохранённой игры из фала
 def load_game(block_board, entity_board, turtl):
     block_keys = {'#': Ash(), '0': Grass(0), '1': Grass(1),
                   '2': Grass(2), '3': Grass(3), '4': Grass(4),
@@ -99,6 +101,7 @@ def load_game(block_board, entity_board, turtl):
         save_game(block_board, entity_board, turtl)
 
 
+# сохранение игры в файл
 def save_game(block_board, entity_board, turtl):
     block_keys = {"ash": "#", "ground_0": "0", "ground_1": "1",
                   "ground_2": "2", "ground_3": "3", "ground_4": "4",
@@ -155,6 +158,7 @@ def save_game(block_board, entity_board, turtl):
         save.write('\n')
 
 
+# экран завершения игры
 def final_screen(screen, clock):
     fon = pygame.transform.scale(pygame.image.load('assets/texture/screens/final_fon.png'),
                                  (screen.get_width() + 300, screen.get_height()))
@@ -213,6 +217,7 @@ def final_screen(screen, clock):
             screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
 
 
+# стыртовое меню игры
 def start_screen(screen, clock):
     fon = pygame.transform.scale(pygame.image.load('assets/texture/screens/fon.png'), (5000, screen.get_height()))
     plot_img = pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot.png'), 270)
@@ -306,6 +311,7 @@ def start_screen(screen, clock):
         pygame.display.flip()
 
 
+# экран смерти черепашки
 def died_screen(screen):
     fon = pygame.image.load('assets/texture/screens/died.png')
     buttons_k1 = 0
@@ -345,9 +351,11 @@ def died_screen(screen):
         pygame.display.flip()
 
 
+# основная функция игры
 def main():
-    game_time = 0
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    game_time = 0  # игровое время
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)  # инициализация экрана
+    # иниициализация карт
     board = Map(256, 256, screen)
     machta_ren = machta_.MachtaMap(256, 256, screen)
     ship_board = ShipMap(256, 256, screen)
@@ -369,7 +377,9 @@ def main():
 
     fps = 30
     clock = pygame.time.Clock()
+    # запуск стартового экрана
     start_type = start_screen(screen, clock)
+    # инициализация черепашки
     turt = Turtle(128, 128, board, entity_board)
     running = True
     mouse_pos = (0, 0)
@@ -379,6 +389,7 @@ def main():
         load_game(board, entity_board, turt)
     pygame.mouse.set_visible(False)
     while running:
+        # обновление карты раз в 20 минут (при стабильных 30 fps)
         if game_time >= 36000:
             if end_crystal < 80:
                 entity_board.generate_entity(1, 1, 254, 254, 1, EnduranceCrystal(), board, Grass, 70 - end_crystal,
@@ -387,6 +398,7 @@ def main():
                 entity_board.generate_entity(80, 80, 100, 100, 1, HealthCrystal(), board, Grass, 10 - hp_crystal,
                                              max_entity=10)
             game_time = 0
+        # проверка на завершение игры
         if turt.stat['fixed_ship'] >= turt.stat['max_fixed_ship']:
             final_screen(screen, clock)
         for event in pygame.event.get():
@@ -398,6 +410,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = board.get_click(event.pos)
                 if event.button == 1:
+                    # проверка на тип действия и корректность предвежения
                     if turt.is_correct_move(x, y):
                         dx = 0
                         dy = 0
@@ -427,8 +440,10 @@ def main():
                         turt.cords = (x, y)
                     else:
                         turt.crafter(x, y)
+                # проверка на взаимодействие с инвенторём
                 if event.button == 3:
                     turt.inventory_move(x, y)
+                # проверка на нажатие кнопки сохранения
                 if event.button == 1:
                     x1, y1 = event.pos
                     if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
@@ -446,6 +461,7 @@ def main():
                             buttons_pos[0][1] + 64:
                         save_game(board, entity_board, turt)
                         sys.exit(0)
+        # проверка на то жива ли черепашка
         if turt.stat["damage"] > 0:
             render_game(screen, board, entity_board, ship_board, turt, clock, fps, 0, 0, mouse_pos, buttons_pos,
                         buttons_k, machta_ren)
@@ -458,4 +474,5 @@ def main():
 if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption('Turtle_on_the_island')
+    pygame.display.set_icon(pygame.image.load('assets/texture/turtle_0.ico'))
     main()

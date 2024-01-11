@@ -1,6 +1,7 @@
 import pygame
 
 
+# используется для загрузки изображений со специфичным фоном
 def load_sprite(name, color=None):
     img = pygame.image.load(name)
     if color is not None:
