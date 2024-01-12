@@ -28,6 +28,8 @@ import ship
 import machta_
 from dry_bush import DryBush
 
+data_pach = '/data/data/com.dellno.TOTI/files/app/'
+
 
 # отрисовка карт и курсоров
 def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_x, pix_y, pos, buttons_pos, buttons_k,
@@ -41,11 +43,9 @@ def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_
         x, y = pos[0] // 128, pos[1] // 128
         pygame.draw.rect(screen, (255, 255, 255), (x * 128, y * 128, 128, 128), 3)
     if buttons_k[0] == 0:
-        screen.blit(pygame.image.load('assets/texture/buttons/save.png'), buttons_pos[0])
+        screen.blit(pygame.image.load(data_pach + 'assets/texture/buttons/save.png'), buttons_pos[0])
     else:
-        screen.blit(pygame.image.load('assets/texture/buttons/save_1.png'), buttons_pos[0])
-    if pygame.mouse.get_focused() and pix_x == 0 and pix_y == 0:
-        screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
+        screen.blit(pygame.image.load(data_pach + 'assets/texture/buttons/save_1.png'), buttons_pos[0])
     pygame.display.flip()
     clock.tick(fps)
 
@@ -66,8 +66,8 @@ def load_game(block_board, entity_board, turtl):
                    'H': ship.Ship_16(), 'J': ship.Ship_17(), 'K': ship.Ship_18(), 'L': ship.Ship_19(),
                    'Z': ship.Ship_20(),
                    'X': ship.Ship_21(), 'C': ship.Ship_22(), 'V': ship.Ship_23(), 'B': ship.Ship_24(), 'u': DryBush()}
-    if os.path.isfile("save/save"):
-        with open("save/save") as save:
+    if os.path.isfile(data_pach + "save/save"):
+        with open(data_pach + "save/save") as save:
             for y in range(len(block_board.board)):
                 keys = save.readline().rstrip('\n')
                 line = []
@@ -94,10 +94,10 @@ def load_game(block_board, entity_board, turtl):
             turtl.stat['fixed_ship'] = int(save.readline().rstrip('\n'))
             entity_board.board[turt_cords[1]][turt_cords[0]] = turtl
 
-    elif os.path.exists('save'):
+    elif os.path.exists(data_pach + 'save'):
         save_game(block_board, entity_board, turtl)
     else:
-        os.mkdir('save')
+        os.mkdir(data_pach + 'save')
         save_game(block_board, entity_board, turtl)
 
 
@@ -117,9 +117,9 @@ def save_game(block_board, entity_board, turtl):
                    'ship_13': 'D', 'ship_14': 'F', 'ship_15': 'G', 'ship_16': 'H', 'ship_17': 'J', 'ship_18': 'K',
                    'ship_19': 'L', 'ship_20': 'Z', 'ship_21': 'X', 'ship_22': 'C', 'ship_23': 'V', 'ship_24': 'B',
                    "dry_bush": 'u'}
-    if not os.path.exists('save'):
-        os.mkdir('save')
-    with open(f"save/save", "w") as save:
+    if not os.path.exists(data_pach + 'save'):
+        os.mkdir(data_pach + 'save')
+    with open(data_pach + f"save/save", "w") as save:
         for y in block_board.board:
             line = ""
             for x in y:
@@ -160,11 +160,11 @@ def save_game(block_board, entity_board, turtl):
 
 # экран завершения игры
 def final_screen(screen, clock):
-    fon = pygame.transform.scale(pygame.image.load('assets/texture/screens/final_fon.png'),
+    fon = pygame.transform.scale(pygame.image.load(data_pach + 'assets/texture/screens/final_fon.png'),
                                  (screen.get_width() + 300, screen.get_height()))
-    ship_im = [pygame.transform.scale(pygame.image.load('assets/texture/screens/ship_1.png'),
+    ship_im = [pygame.transform.scale(pygame.image.load(data_pach + 'assets/texture/screens/ship_1.png'),
                                       (screen.get_width() * 0.4, screen.get_height() * 0.4)),
-               pygame.transform.scale(pygame.image.load('assets/texture/screens/ship_2.png'),
+               pygame.transform.scale(pygame.image.load(data_pach + 'assets/texture/screens/ship_2.png'),
                                       (screen.get_width() * 0.4, screen.get_height() * 0.4))]
     buttons_pos = [(screen.get_width() // 1.15, 32), (screen.get_width() // 1.15, 128)]
     buttons_k = 0
@@ -209,23 +209,20 @@ def final_screen(screen, clock):
         screen.blit(ship_im[int((c % 7) // 4)], (400, screen.get_height() // 2 - 210))
 
         if buttons_k == 0:
-            screen.blit(pygame.image.load('assets/texture/buttons/exit_f.png'), buttons_pos[0])
+            screen.blit(pygame.image.load(data_pach + 'assets/texture/buttons/exit_f.png'), buttons_pos[0])
         else:
-            screen.blit(pygame.image.load('assets/texture/buttons/exit_f2.png'), buttons_pos[0])
-
-        if pygame.mouse.get_focused():
-            screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
+            screen.blit(pygame.image.load(data_pach + 'assets/texture/buttons/exit_f2.png'), buttons_pos[0])
 
 
 # стыртовое меню игры
 def start_screen(screen, clock):
-    fon = pygame.transform.scale(pygame.image.load('assets/texture/screens/fon.png'), (5000, screen.get_height()))
-    plot_img = pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot.png'), 270)
-    turtle_anim = [pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_' + str(i) + '.png'),
+    fon = pygame.transform.scale(pygame.image.load(data_pach + 'assets/texture/screens/fon.png'), (5000, screen.get_height()))
+    plot_img = pygame.transform.rotate(pygame.image.load(data_pach + 'assets/texture/entity/plot.png'), 270)
+    turtle_anim = [pygame.transform.rotate(pygame.image.load(data_pach + 'assets/texture/turtle/turtle_' + str(i) + '.png'),
                                            270) for i in range(1, 9)]
-    plot_anim = [pygame.transform.rotate(pygame.image.load('assets/texture/entity/plot_' + str(i) + '.png'),
+    plot_anim = [pygame.transform.rotate(pygame.image.load(data_pach + 'assets/texture/entity/plot_' + str(i) + '.png'),
                                          270) for i in range(1, 3)]
-    turt = pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_1.png'), 270)
+    turt = pygame.transform.rotate(pygame.image.load(data_pach + 'assets/texture/turtle/turtle_1.png'), 270)
 
     v = -2
     x, y = 0, 0
@@ -236,7 +233,6 @@ def start_screen(screen, clock):
                    (screen.get_width() // 2 - 80, screen.get_height() // 2),
                    (screen.get_width() // 2 - 80, screen.get_height() // 2 + 128)]
     kk = False
-    pygame.mouse.set_visible(False)
     while True:
         clock.tick(30)
         for event in pygame.event.get():
@@ -287,33 +283,31 @@ def start_screen(screen, clock):
             screen.blit(plot_img, (x + 1100, screen.get_height() // 2))
             screen.blit(turtle_anim[int(c // 3.8)], (300, screen.get_height() // 2))
         if buttons_k1 == 0:
-            screen.blit(pygame.image.load('assets/texture/buttons/new_game.png'), buttons_pos[0])
+            screen.blit(pygame.image.load(data_pach + 'assets/texture/buttons/new_game.png'), buttons_pos[0])
         else:
-            screen.blit(pygame.image.load('assets/texture/buttons/new_game_1.png'), buttons_pos[0])
+            screen.blit(pygame.image.load(data_pach + 'assets/texture/buttons/new_game_1.png'), buttons_pos[0])
 
         if buttons_k2 == 0:
-            screen.blit(pygame.image.load('assets/texture/buttons/load_game_1.png'), buttons_pos[1])
+            screen.blit(pygame.image.load(data_pach + 'assets/texture/buttons/load_game_1.png'), buttons_pos[1])
         else:
-            screen.blit(pygame.image.load('assets/texture/buttons/load_game.png'), buttons_pos[1])
+            screen.blit(pygame.image.load(data_pach + 'assets/texture/buttons/load_game.png'), buttons_pos[1])
 
         if buttons_k3 == 0:
-            screen.blit(pygame.image.load('assets/texture/buttons/how_to_play.png'), buttons_pos[2])
+            screen.blit(pygame.image.load(data_pach + 'assets/texture/buttons/how_to_play.png'), buttons_pos[2])
         else:
-            screen.blit(pygame.image.load('assets/texture/buttons/how_to_play_1.png'), buttons_pos[2])
+            screen.blit(pygame.image.load(data_pach + 'assets/texture/buttons/how_to_play_1.png'), buttons_pos[2])
 
         if kk:
-            screen.blit(pygame.image.load('assets/texture/screens/explanatory_card.png'), (screen.get_width() - 510,
+            screen.blit(pygame.image.load(data_pach + 'assets/texture/screens/explanatory_card.png'), (screen.get_width() - 510,
                                                                                            (
                                                                                                    screen.get_height() - 700) // 2))
 
-        if pygame.mouse.get_focused():
-            screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
         pygame.display.flip()
 
 
 # экран смерти черепашки
 def died_screen(screen):
-    fon = pygame.image.load('assets/texture/screens/died.png')
+    fon = pygame.image.load(data_pach + 'assets/texture/screens/died.png')
     buttons_k1 = 0
     buttons_pos = [(screen.get_width() // 2 - 80, screen.get_height() // 2 + 280)]
     pygame.mouse.set_visible(False)
@@ -343,11 +337,10 @@ def died_screen(screen):
         screen.blit(fon,
                     (screen.get_width() // 2 - fon.get_width() // 2, screen.get_height() // 2 - fon.get_height() // 2))
         if buttons_k1 == 0:
-            screen.blit(pygame.image.load('assets/texture/buttons/restart.png'), buttons_pos[0])
+            screen.blit(pygame.image.load(data_pach + 'assets/texture/buttons/restart.png'), buttons_pos[0])
         else:
-            screen.blit(pygame.image.load('assets/texture/buttons/restart_1.png'), buttons_pos[0])
+            screen.blit(pygame.image.load(data_pach + 'assets/texture/buttons/restart_1.png'), buttons_pos[0])
 
-        screen.blit(pygame.image.load('assets/texture/arrow.png'), mouse_pos)
         pygame.display.flip()
 
 
@@ -384,7 +377,8 @@ def main():
     running = True
     mouse_pos = (0, 0)
     buttons_pos = [(screen.get_width() // 1.15, 32), (screen.get_width() // 1.15, 128)]
-    buttons_k = [0, 0]
+    buttons_k = [0]
+    craft_btn = False
     if start_type == 'load':
         load_game(board, entity_board, turt)
     pygame.mouse.set_visible(False)
@@ -409,7 +403,9 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = board.get_click(event.pos)
-                if event.button == 1:
+                if event.button == 1 and turt.cords == (x, y):
+                    craft_btn = not craft_btn
+                elif event.button == 1 and not craft_btn:
                     # проверка на тип действия и корректность предвежения
                     if turt.is_correct_move(x, y):
                         dx = 0
@@ -438,10 +434,11 @@ def main():
                         turt.anim_step = 0
                         turt.move(x, y)
                         turt.cords = (x, y)
-                    else:
+                    elif not craft_btn:
                         turt.crafter(x, y)
+
                 # проверка на взаимодействие с инвенторём
-                if event.button == 3:
+                if event.button == 1 and craft_btn:
                     turt.inventory_move(x, y)
                 # проверка на нажатие кнопки сохранения
                 if event.button == 1:
@@ -449,11 +446,8 @@ def main():
                     if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
                             buttons_pos[0][1] + 64:
                         buttons_k[0] = 1
-                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
-                            buttons_pos[1][1] + 64:
-                        buttons_k[1] = 1
             else:
-                buttons_k[0], buttons_k[1], = 0, 0
+                buttons_k[0] = 0
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     x1, y1 = event.pos
@@ -474,5 +468,4 @@ def main():
 if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption('Turtle_on_the_island')
-    pygame.display.set_icon(pygame.image.load('assets/texture/turtle_0.ico'))
     main()

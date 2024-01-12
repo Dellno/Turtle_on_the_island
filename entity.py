@@ -1,6 +1,8 @@
 import pygame
 from load_sprite import load_sprite
 
+data_pach = '/data/data/com.dellno.TOTI/files/app/'
+
 
 # родительский класс. Все наследники этого класса являются элементами entity_map и подобным.
 class Entity:
@@ -8,7 +10,7 @@ class Entity:
         self.hardness = hardness  # прочность предмета. отвечает за разрушаемость
         self.name = name  # используется для идентификации предмета в сохранениях и крафтах
         self.weight = weight  # отвечает за то, тонет ли предмет в воде
-        self.img = load_sprite("assets/texture/entity/" + sprite)
+        self.img = load_sprite(data_pach + "assets/texture/entity/" + sprite)
 
     # проверяет может ли черепашка взять предмет
     def destroy(self, instrument_level):

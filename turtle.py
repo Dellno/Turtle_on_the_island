@@ -29,15 +29,15 @@ class Turtle:
         self.block_map = block_map
         self.cords = (spawn_x, spawn_y)
         self.static_anim = 0  # этап статической анимации
-        self.anim = [[pygame.transform.rotate(pygame.image.load('assets/texture/turtle/turtle_' + str(i) + '.png'),
+        self.anim = [[pygame.transform.rotate(pygame.image.load('/data/data/com.dellno.TOTI/files/app/assets/texture/turtle/turtle_' + str(i) + '.png'),
                                               j) for i in range(1, 19)] for j in [0, 270, 180, 90]]
 
         self.inventory = None  # инвентарь
         self.max_hardness = 0
         self.rotate = 0
         self.anim_step = 0  # текущий шаг анимации передвежения
-        self.hp = pygame.transform.scale(pygame.image.load('assets/texture/entity/health_crystal.png'), (64, 64))
-        self.end = pygame.transform.scale(pygame.image.load('assets/texture/entity/endurance_crystal.png'), (64, 64))
+        self.hp = pygame.transform.scale(pygame.image.load('/data/data/com.dellno.TOTI/files/app/assets/texture/entity/health_crystal.png'), (64, 64))
+        self.end = pygame.transform.scale(pygame.image.load('/data/data/com.dellno.TOTI/files/app/assets/texture/entity/endurance_crystal.png'), (64, 64))
         self.in_plot = False
         # поиск блока для спавна. при отсутствии создаётся автоматически
         i_spawn = False
