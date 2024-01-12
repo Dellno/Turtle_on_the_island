@@ -44,8 +44,6 @@ def render_game(screen, board, entity_board, ship_board, turtl, clock, fps, pix_
         screen.blit(pygame.image.load('assets/texture/buttons/save.png'), buttons_pos[0])
     else:
         screen.blit(pygame.image.load('assets/texture/buttons/save_1.png'), buttons_pos[0])
-    if pygame.mouse.get_focused() and pix_x == 0 and pix_y == 0:
-        screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
     pygame.display.flip()
     clock.tick(fps)
 
@@ -213,9 +211,6 @@ def final_screen(screen, clock):
         else:
             screen.blit(pygame.image.load('assets/texture/buttons/exit_f2.png'), buttons_pos[0])
 
-        if pygame.mouse.get_focused():
-            screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
-
 
 # стыртовое меню игры
 def start_screen(screen, clock):
@@ -236,7 +231,6 @@ def start_screen(screen, clock):
                    (screen.get_width() // 2 - 80, screen.get_height() // 2),
                    (screen.get_width() // 2 - 80, screen.get_height() // 2 + 128)]
     kk = False
-    pygame.mouse.set_visible(False)
     while True:
         clock.tick(30)
         for event in pygame.event.get():
@@ -306,8 +300,6 @@ def start_screen(screen, clock):
                                                                                            (
                                                                                                    screen.get_height() - 700) // 2))
 
-        if pygame.mouse.get_focused():
-            screen.blit(pygame.image.load('assets/texture/arrow.png'), pos)
         pygame.display.flip()
 
 
@@ -347,7 +339,6 @@ def died_screen(screen):
         else:
             screen.blit(pygame.image.load('assets/texture/buttons/restart_1.png'), buttons_pos[0])
 
-        screen.blit(pygame.image.load('assets/texture/arrow.png'), mouse_pos)
         pygame.display.flip()
 
 
@@ -384,7 +375,8 @@ def main():
     running = True
     mouse_pos = (0, 0)
     buttons_pos = [(screen.get_width() // 1.15, 32), (screen.get_width() // 1.15, 128)]
-    buttons_k = [0, 0]
+    buttons_k = [0]
+    craft_btn = False
     if start_type == 'load':
         load_game(board, entity_board, turt)
     pygame.mouse.set_visible(False)
@@ -409,7 +401,9 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = board.get_click(event.pos)
-                if event.button == 1:
+                if event.button == 1 and turt.cords == (x, y):
+                    craft_btn = not craft_btn
+                elif event.button == 1 and not craft_btn:
                     # проверка на тип действия и корректность предвежения
                     if turt.is_correct_move(x, y):
                         dx = 0
@@ -438,10 +432,11 @@ def main():
                         turt.anim_step = 0
                         turt.move(x, y)
                         turt.cords = (x, y)
-                    else:
+                    elif not craft_btn:
                         turt.crafter(x, y)
+
                 # проверка на взаимодействие с инвенторём
-                if event.button == 3:
+                if event.button == 1 and craft_btn:
                     turt.inventory_move(x, y)
                 # проверка на нажатие кнопки сохранения
                 if event.button == 1:
@@ -449,11 +444,8 @@ def main():
                     if x1 > buttons_pos[0][0] and x1 < buttons_pos[0][0] + 160 and y1 > buttons_pos[0][1] and y1 < \
                             buttons_pos[0][1] + 64:
                         buttons_k[0] = 1
-                    if x1 > buttons_pos[1][0] and x1 < buttons_pos[1][0] + 160 and y1 > buttons_pos[1][1] and y1 < \
-                            buttons_pos[1][1] + 64:
-                        buttons_k[1] = 1
             else:
-                buttons_k[0], buttons_k[1], = 0, 0
+                buttons_k[0] = 0
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     x1, y1 = event.pos
