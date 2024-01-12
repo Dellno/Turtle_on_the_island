@@ -5,7 +5,7 @@ import pygame
 class Block:
     def __init__(self, texture: str, name="block"):
         self.name = name  # используется для идентификации блока в сохранениях и крафтах
-        self.texture = pygame.image.load(f"assets/texture/ground/{texture}")
+        self.texture = pygame.image.load(f"/data/data/com.dellno.TOTI/files/app/assets/texture/ground/{texture}")
 
     #  использутся классом map для отрисовки блока
     def render(self, x, y, screen):
