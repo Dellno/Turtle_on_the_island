@@ -7,7 +7,7 @@ from load_sprite import load_sprite
 class Plot(Entity):
     def __init__(self):
         super().__init__("plot", sprite="plot.png", hardness=0, weight=0)
-        self.anim = [load_sprite("/data/data/com.dellno.TOTI/files/app/assets/texture/entity/plot_1.png"), load_sprite("assets/texture/entity/plot_2.png")]
+        self.anim = [load_sprite("assets/texture/entity/plot_1.png"), load_sprite("assets/texture/entity/plot_2.png")]
 
     def render(self, x, y, screen, rotate=0, anim_step=None):
         if anim_step is None:
